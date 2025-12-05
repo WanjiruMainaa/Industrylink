@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>{% if add_mode %}Add New Project{% else %}Student Projects{% endif %}</h2>
+    <hr>
+    
+    {% if add_mode %}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label">{{ field.label }}</label>
+                            {% if field.name == 'description' %}
+                            <textarea name="{{ field.name }}" class="form-control" rows="4" {% if field.field.required %}required{% endif %}></textarea>
+                            {% elif field.name == 'start_date' or field.name == 'end_date' %}
+                            <input type="date" name="{{ field.name }}" class="form-control" {% if field.field.required %}required{% endif %}>
+                            {% elif field.name == 'image' %}
+                            <input type="file" name="{{ field.name }}" class="form-control">
+                            {% elif field.name == 'status' %}
+                            <select name="{{ field.name }}" class="form-control">
+                                <option value="ongoing">Ongoing</option>
+                                <option value="completed">Completed</option>
+                                <option value="paused">Paused</option>
+                            </select>
+                            {% else %}
+                            <input type="text" name="{{ field.name }}" class="form-control" {% if field.field.required %}required{% endif %}>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-success">Add Project</button>
+                        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="row">
+        {% if projects %}
+            {% for project in projects %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    {% if project.image %}
+                    <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                    <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <span>No Image</span>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <p class="card-text">{{ project.description|truncatewords:15 }}</p>
+                        <p class="mb-1"><strong>By:</strong> {{ project.student.full_name }}</p>
+                        <p class="mb-1"><strong>Tech:</strong> {{ project.tech_stack }}</p>
+                        <span class="badge bg-info">{{ project.status }}</span>
+                    </div>
+                    <div class="card-footer">
+                        {% if project.github_link %}
+                        <a href="{{ project.github_link }}" target="_blank" class="btn btn-sm btn-dark">GitHub</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+        <div class="alert alert-info">No projects available yet.</div>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

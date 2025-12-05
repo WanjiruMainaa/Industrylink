@@ -5,5 +5,13 @@ app_name = 'main'
 
 urlpatterns = [
     path('', views.home, name='home'),
-
+    path('login/', views.loginUser, name='login'),
+    path('register/', views.registerUser, name='register'),
+    path('logout/', views.logoutUser, name='logout'),
+    path('dashboard/', views.dashboard, name= 'dashboard'),
+    path('projects/', views.projects_list, name='projects'),
+    path('projects/add/', views.add_project, name='add_project'),
+    path('mentor/', views.mentor_list, name='mentor'),
+    path('skill_gap/', views.skill_gap_analyser, name='skills'),
+    path('profile/edit/', views.edit_profile, name='edit_profile'),
 ]

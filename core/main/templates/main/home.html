@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - IndustryLink{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<div class="hero">
+    <div class="container text-center">
+        <h1 class="display-3 fw-bold">IndustryLink</h1>
+        <p class="tagline">Bridging Academia and Industry</p>
+        <p class="hero-description mx-auto" style="max-width: 700px;">
+            Connect with real-world projects, find mentors in your field, and build the skills 
+            employers actually want. Your journey from student to professional starts here.
+        </p>
+        <div class="mt-4">
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'main:dashboard' %}" class="btn btn-light btn-lg px-5 me-3">
+                    <i class="bi bi-speedometer2"></i> Go to Dashboard
+                </a>
+                <a href="{% url 'main:projects' %}" class="btn btn-outline-light btn-lg px-5">
+                    <i class="bi bi-folder"></i> Browse Projects
+                </a>
+            {% else %}
+                <a href="{% url 'main:register' %}" class="btn btn-light btn-lg px-5 me-3">
+                    <i class="bi bi-person-plus"></i> Get Started
+                </a>
+                <a href="{% url 'main:login' %}" class="btn btn-outline-light btn-lg px-5">
+                    <i class="bi bi-box-arrow-in-right"></i> Login
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- What is IndustryLink Section -->
+<div class="container my-5">
+    <div class="row mb-5">
+        <div class="col-md-12 text-center">
+            <h2 class="display-5 fw-bold mb-3">What is IndustryLink?</h2>
+            <p class="lead text-muted">A platform designed to close the gap between what you learn in class and what employers need</p>
+        </div>
+    </div>
+    
+    <!-- Feature Cards -->
+    <div class="row g-4">
+        <!-- Projects Feature -->
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body text-center p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-folder-fill text-primary" style="font-size: 3rem;"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">Campus-to-Career Portal</h5>
+                    <p class="card-text text-muted">
+                        Showcase your projects to potential employers, NGOs, and freelancers. 
+                        Get discovered based on your actual skills and work, not just grades.
+                    </p>
+                    <a href="{% url 'main:projects' %}" class="btn btn-outline-primary">
+                        View Projects <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mentorship Feature -->
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body text-center p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-people-fill text-success" style="font-size: 3rem;"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">Mentorship Map</h5>
+                    <p class="card-text text-muted">
+                        Connect with experienced professionals in your field. Get personalized 
+                        guidance on career paths, skill development, and breaking into the industry.
+                    </p>
+                    <a href="{% url 'main:mentor' %}" class="btn btn-outline-success">
+                        Find Mentors <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Skill Gap Feature -->
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body text-center p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-graph-up-arrow text-danger" style="font-size: 3rem;"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">Skill Gap Analyzer</h5>
+                    <p class="card-text text-muted">
+                        Discover exactly what skills you need for your dream job. Get a personalized 
+                        learning roadmap with free resources to bridge the gap.
+                    </p>
+                    <a href="{% url 'main:skills' %}" class="btn btn-outline-danger">
+                        Analyze Skills <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How It Works Section -->
+<div class="bg-light py-5 my-5">
+    <div class="container">
+        <h2 class="text-center display-5 fw-bold mb-5">How It Works</h2>
+        <div class="row">
+            <div class="col-md-3 text-center">
+                <div class="mb-3">
+                    <i class="bi bi-1-circle-fill text-primary" style="font-size: 3rem;"></i>
+                </div>
+                <h5 class="fw-bold">Sign Up</h5>
+                <p class="text-muted">Create your free student account in under 2 minutes</p>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="mb-3">
+                    <i class="bi bi-2-circle-fill text-primary" style="font-size: 3rem;"></i>
+                </div>
+                <h5 class="fw-bold">Build Profile</h5>
+                <p class="text-muted">Add your projects, skills, and career interests</p>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="mb-3">
+                    <i class="bi bi-3-circle-fill text-primary" style="font-size: 3rem;"></i>
+                </div>
+                <h5 class="fw-bold">Connect</h5>
+                <p class="text-muted">Find mentors and collaborate with peers</p>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="mb-3">
+                    <i class="bi bi-4-circle-fill text-primary" style="font-size: 3rem;"></i>
+                </div>
+                <h5 class="fw-bold">Get Hired</h5>
+                <p class="text-muted">Land internships and job opportunities</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action -->
+<div class="container text-center my-5 py-5">
+    <h2 class="display-5 fw-bold mb-3">Ready to Start Your Journey?</h2>
+    <p class="lead text-muted mb-4">Join hundreds of students already building their careers with IndustryLink</p>
+    {% if not request.user.is_authenticated %}
+        <a href="{% url 'main:register' %}" class="btn btn-primary btn-lg px-5">
+            Create Free Account <i class="bi bi-arrow-right"></i>
+        </a>
+    {% endif %}
+</div>
+
+{% endblock %}

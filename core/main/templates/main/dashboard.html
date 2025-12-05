@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col col-md-12"> 
+        <h2>Student Dashboard</h2>
+        <p class="text-center">Welcome, {{ student.full_name }} to your dashboard</p>
+        </div>
+        <div class="card-body">
+            <p><strong>Institution:</strong>{{student.institution}}</p>
+            <p><strong>Course:</strong>{{student.course}}</p>
+            <p><strong>year_of_study:</strong>{{student.year_of_study}}</p>
+            <p><strong>Email:</strong>{{user.email}}</p>
+            {% if student.bio %}
+            <p><strong>Bio:</strong>{{student.bio}}</p>
+            {% endif %}
+            <a href="{% url 'edit_profile' %}" class="btn btn-sm btn-outline-primary mt-2">Edit Profile</a>
+
+        </div>
+    </div>
+</div>
+
+<div class="col-md-8">
+    <div class="card mb-3">
+        <div class ="card-header bg-success text-white d-flex justify content between align items center">
+            <h5>My Projects</h5>
+            <a href ="{% url 'add_project_' %}" class="btn btn-sm btn-light">Add Project</a>
+        </div>
+    </div>
+</div>
+ <div class="card-body">
+                    {% if projects %}
+                        {% for project in projects %}
+                        <div class="border-bottom pb-2 mb-2">
+                            <h6>{{ project.title }}</h6>
+                            <p class="mb-1">{{ project.description|truncatewords:15 }}</p>
+                            <small><strong>Tech:</strong> {{ project.tech_stack }}</small><br>
+                            <span class="badge bg-info">{{ project.status }}</span>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">No projects yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-warning"><h5>My Skills</h5></div>
+                <div class="card-body">
+                    {% if skills %}
+                        {% for skill in skills %}
+                        <span class="badge bg-secondary me-1">{{ skill.skill_name }} - {{ skill.level }}</span>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">No skills added yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+    

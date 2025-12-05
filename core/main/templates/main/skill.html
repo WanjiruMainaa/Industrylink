@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Skills</h2>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5>Analyze Your Skills</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Target Role</label>
+                            <select name="target_role" class="form-select" required>
+                                <option value="">Select a role...</option>
+                                {% for role in roles %}
+                                <option value="{{ role }}">{{ role }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Your Current Skills (comma-separated)</label>
+                            <textarea name="user_skills" class="form-control" rows="3" placeholder="e.g., Python, Django, HTML, CSS" required></textarea>
+                            <small class="text-muted">Enter your skills separated by commas</small>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Analyze</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            {% if results %}
+            <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5>Results for {{ results.target_role }}</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-4">
+                    <h6>Your Progress</h6>
+                    <div class="progress">
+                        <div class="progress-bar bg-success" style="width: {{ results.progress_percentage }}%">
+                            {{ results.progress_percentage }}%
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <h6 class="text-success">Skills You Have</h6>
+                    {% if results.matching_skills %}
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for skill in results.matching_skills %}
+                        <span class="badge bg-success">{{ skill }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-muted">No matching skills yet</p>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <h6 class="text-danger">Skills You Need</h6>
+                    {% if results.missing_skills %}
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for skill in results.missing_skills %}
+                        <span class="badge bg-danger">{{ skill }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-success">Congratulations! You have all required skills!</p>
+                    {% endif %}
+                </div>
+
+                {% if results.missing_skills %}
+                <div class="alert alert-info mt-3">
+                    <h6>Recommended Resources:</h6>
+                    <ul>
+                        <li><a href="https://www.coursera.org/" target="_blank">Coursera</a> - Online courses</li>
+                        <li><a href="https://www.youtube.com/" target="_blank">YouTube</a> - Video tutorials</li>
+                    </ul>
+                </div>
+                {% endif %}
+
+                {% if results.progress_percentage >= 70 %}
+                <div class="alert alert-success">
+                    Great job! You're well on your way to becoming a {{ results.target_role }}!
+                </div>
+                {% elif results.progress_percentage >= 40 %}
+                <div class="alert alert-warning">
+                    You're making progress! Keep learning to close the gap.
+                </div>
+                {% else %}
+                <div class="alert alert-info">
+                    Don't worry! Everyone starts somewhere. Focus on learning one skill at a time.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
