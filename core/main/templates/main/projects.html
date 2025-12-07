@@ -1,76 +1,169 @@
 {% extends 'base.html' %}
 
+{% block title %}{% if add_mode %}Add Project{% else %}Projects{% endif %} - IndustryLink{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
-    <h2>{% if add_mode %}Add New Project{% else %}Student Projects{% endif %}</h2>
-    <hr>
-    
-    {% if add_mode %}
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-body">
-                    <form method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {% for field in form %}
-                        <div class="mb-3">
-                            <label class="form-label">{{ field.label }}</label>
-                            {% if field.name == 'description' %}
-                            <textarea name="{{ field.name }}" class="form-control" rows="4" {% if field.field.required %}required{% endif %}></textarea>
-                            {% elif field.name == 'start_date' or field.name == 'end_date' %}
-                            <input type="date" name="{{ field.name }}" class="form-control" {% if field.field.required %}required{% endif %}>
-                            {% elif field.name == 'image' %}
-                            <input type="file" name="{{ field.name }}" class="form-control">
-                            {% elif field.name == 'status' %}
-                            <select name="{{ field.name }}" class="form-control">
-                                <option value="ongoing">Ongoing</option>
-                                <option value="completed">Completed</option>
-                                <option value="paused">Paused</option>
-                            </select>
-                            {% else %}
-                            <input type="text" name="{{ field.name }}" class="form-control" {% if field.field.required %}required{% endif %}>
-                            {% endif %}
-                        </div>
-                        {% endfor %}
-                        <button type="submit" class="btn btn-success">Add Project</button>
-                        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancel</a>
-                    </form>
+
+{% if add_mode %}
+    <!-- ADD PROJECT MODE -->
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-success text-white text-center py-4">
+                        <h3 class="mb-0">
+                            <i class="bi bi-plus-circle"></i> Add New Project
+                        </h3>
+                        <p class="mb-0 mt-2">Showcase your work to potential employers!</p>
+                    </div>
+                    <div class="card-body p-4">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            
+                            {% for field in form %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">
+                                    {% if field.name == 'title' %}<i class="bi bi-card-heading"></i>
+                                    {% elif field.name == 'description' %}<i class="bi bi-card-text"></i>
+                                    {% elif field.name == 'skills_used' %}<i class="bi bi-tools"></i>
+                                    {% elif field.name == 'github_link' %}<i class="bi bi-github"></i>
+                                    {% elif field.name == 'status' %}<i class="bi bi-flag"></i>
+                                    {% elif field.name == 'start_date' %}<i class="bi bi-calendar-check"></i>
+                                    {% elif field.name == 'end_date' %}<i class="bi bi-calendar-x"></i>
+                                    {% endif %}
+                                    {{ field.label }}
+                                </label>
+                                {{ field }}
+                                {% if field.errors %}
+                                    <div class="text-danger small mt-1">{{ field.errors }}</div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                            
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-success btn-lg">
+                                    <i class="bi bi-check-circle"></i> Add Project
+                                </button>
+                                <a href="{% url 'main:dashboard' %}" class="btn btn-outline-secondary">
+                                    <i class="bi bi-x-circle"></i> Cancel
+                                </a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    {% else %}
-    <div class="row">
+
+{% else %}
+    <!-- PROJECT SHOWCASE MODE -->
+    <!-- 📸 README SCREENSHOT: Take screenshot of this page for README - call it "projects-showcase.png" -->
+    
+    <!-- Hero Section for Projects Page -->
+    <div class="bg-primary text-white py-5 mb-4">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold">
+                <i class="bi bi-folder-fill"></i> Student Projects
+            </h1>
+            <p class="lead">Discover amazing projects built by talented students</p>
+        </div>
+    </div>
+
+    <div class="container mb-5">
         {% if projects %}
-            {% for project in projects %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    {% if project.image %}
-                    <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}" style="height: 200px; object-fit: cover;">
-                    {% else %}
-                    <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
-                        <span>No Image</span>
-                    </div>
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ project.title }}</h5>
-                        <p class="card-text">{{ project.description|truncatewords:15 }}</p>
-                        <p class="mb-1"><strong>By:</strong> {{ project.student.full_name }}</p>
-                        <p class="mb-1"><strong>Tech:</strong> {{ project.tech_stack }}</p>
-                        <span class="badge bg-info">{{ project.status }}</span>
-                    </div>
-                    <div class="card-footer">
-                        {% if project.github_link %}
-                        <a href="{{ project.github_link }}" target="_blank" class="btn btn-sm btn-dark">GitHub</a>
+            <div class="row g-4">
+                {% for project in projects %}
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0 project-card">
+                        <!-- Project Image or Placeholder -->
+                        {% if project.image %}
+                            <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                            <!-- 🖼️ IMAGE PLACEHOLDER: Replace this with actual project thumbnails -->
+                            <!-- Suggested image: Technology/coding themed background -->
+                            <div class="bg-gradient text-white d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                <i class="bi bi-laptop" style="font-size: 4rem;"></i>
+                            </div>
                         {% endif %}
+                        
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">
+                                <i class="bi bi-folder-fill text-primary"></i> {{ project.title }}
+                            </h5>
+                            <p class="card-text text-muted">{{ project.description|truncatewords:15 }}</p>
+                            
+                            <div class="mb-2">
+                                <small class="text-muted">
+                                    <i class="bi bi-person"></i> <strong>By:</strong> {{ project.student.user.username }}
+                                </small>
+                            </div>
+                            
+                            <div class="mb-2">
+                                <small class="text-muted">
+                                    <i class="bi bi-tools"></i> <strong>Tech:</strong> {{ project.skills_used }}
+                                </small>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <span class="badge bg-{{ project.status|lower }} text-white">
+                                    {% if project.status == 'ongoing' %}
+                                        <i class="bi bi-arrow-repeat"></i>
+                                    {% elif project.status == 'completed' %}
+                                        <i class="bi bi-check-circle"></i>
+                                    {% else %}
+                                        <i class="bi bi-pause-circle"></i>
+                                    {% endif %}
+                                    {{ project.status|upper }}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer bg-white border-0">
+                            {% if project.github_link %}
+                                <a href="{{ project.github_link }}" target="_blank" class="btn btn-sm btn-dark w-100">
+                                    <i class="bi bi-github"></i> View on GitHub
+                                </a>
+                            {% else %}
+                                <button class="btn btn-sm btn-outline-secondary w-100" disabled>
+                                    <i class="bi bi-github"></i> No GitHub Link
+                                </button>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         {% else %}
-        <div class="alert alert-info">No projects available yet.</div>
+            <!-- Empty State -->
+            <div class="text-center py-5">
+                <i class="bi bi-folder-x text-muted" style="font-size: 5rem;"></i>
+                <h3 class="mt-4 text-muted">No Projects Yet</h3>
+                <p class="text-muted">Be the first to showcase your work!</p>
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'main:add_project' %}" class="btn btn-primary btn-lg mt-3">
+                        <i class="bi bi-plus-circle"></i> Add Your First Project
+                    </a>
+                {% else %}
+                    <a href="{% url 'main:register' %}" class="btn btn-primary btn-lg mt-3">
+                        <i class="bi bi-person-plus"></i> Register to Add Projects
+                    </a>
+                {% endif %}
+            </div>
         {% endif %}
     </div>
-    {% endif %}
-</div>
+
+    <style>
+        .project-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
+        }
+        .bg-ongoing { background-color: #0dcaf0 !important; }
+        .bg-completed { background-color: #198754 !important; }
+        .bg-paused { background-color: #ffc107 !important; color: #000 !important; }
+    </style>
+{% endif %}
+
 {% endblock %}

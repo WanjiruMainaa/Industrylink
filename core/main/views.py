@@ -14,22 +14,52 @@ def home(request):
 def registerUser(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
+        user_type = request.POST.get('user_type', 'student')  
+        
         if form.is_valid():
             user = form.save()
-            StudentProfile.objects.create(
-                user=user,
-                institution=form.cleaned_data['institution'],
-                course=form.cleaned_data['course'],
-                year_of_study=form.cleaned_data['year_of_study'],
-                email=form.cleaned_data['email']
-            )
-
-            messages.success(request, 'Account created successfully! Please login.')
-            return redirect('main:login')
+            
+            if user_type == 'student':
+                StudentProfile.objects.create(
+                    user=user,
+                    institution=form.cleaned_data.get('institution', ''),
+                    course=form.cleaned_data.get('course', ''),
+                    year_of_study=form.cleaned_data.get('year_of_study', 1),
+                    email=form.cleaned_data['email'],
+                    bio='',
+                    skills='',
+                    phone=''
+                )
+            else:
+                # For mentors, organizations, freelancers - create minimal profile
+                StudentProfile.objects.create(
+                    user=user,
+                    institution='',
+                    course=user_type.capitalize(),  # Store user type in course field for now
+                    year_of_study=0,  # 0 indicates non-student
+                    email=form.cleaned_data['email'],
+                    bio=f'{user_type.capitalize()} account - please complete your profile',
+                    skills='',
+                    phone=''
+                )
+            
+            login(request, user)
+            messages.success(request, f'Account created successfully as {user_type}! Please login.')
+            return redirect('main:dashboard')
     else:
         form = RegisterForm()
+    
     context = {"form": form}
     return render(request, 'main/register.html', context)
+
+def contact(request):
+    if request.method == 'POST':
+        # Later, add email sending here
+        name = request.POST.get('name')
+        messages.success(request, f'Thanks {name}! We received your message and will respond as soon as possible.')
+        return redirect('main:contact')
+    
+    return render(request, 'contact.html')
 
        
 
@@ -37,22 +67,21 @@ def loginUser(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        print(username)
-        print(password)
 
         try:
-            user = User.objects.get(username=username)
+            check_user = User.objects.get(username=username)
         except:
             messages.error(request, "User does not exist!")
             return render(request, 'main/login.html')
         
-        user = authenticate(request, username= username, password= password)
+        user = authenticate(request, username=username, password= password)
 
         if user is not None:
             login(request, user)
             return redirect('main:dashboard')
         else:
             messages.error("Incorrect username or password")
+            return render(request, 'main/login.html')
     
     context ={}
     return render(request, 'main/login.html',context )
@@ -80,7 +109,7 @@ def dashboard(request):
     context = {
         'student': student_profile,
         'projects': projects,
-        'skills': skill,
+        'skills': skills_list,
     }
     return render(request, 'main/dashboard.html', context)
 
@@ -104,7 +133,7 @@ def add_project(request):
     return render(request, 'main/projects.html', {'form': form})
 
 @login_required(login_url='main:login')
-def edit_profile(request):
+def editProfile(request):
     try:
         student = StudentProfile.objects.get(user=request.user)
     except StudentProfile.DoesNotExist:
@@ -121,7 +150,7 @@ def edit_profile(request):
     else:
         form = ProfileEditForm(instance=student)
     
-    return render(request, 'main/edit_profile.html', {'form': form})
+    return render(request, 'main/editProfile.html', {'form': form})
 
 def mentor_list(request):
     all_mentors = Mentor.objects.all()

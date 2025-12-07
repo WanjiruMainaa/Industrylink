@@ -1,44 +1,118 @@
 {% extends 'base.html' %}
 
+{% block title %}Mentors - IndustryLink{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
-    <h2 class="mb-4">Available Mentors</h2>
-    
+
+<!-- 📸 README SCREENSHOT: Take screenshot of this page - call it "mentors-directory.png" -->
+
+<!-- Hero Section -->
+<div class="bg-success text-white py-5 mb-4">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold">
+            <i class="bi bi-people-fill"></i> Meet Our Mentors
+        </h1>
+        <p class="lead">Connect with experienced professionals who want to help you succeed</p>
+    </div>
+</div>
+
+<div class="container mb-5">
     {% if mentors %}
-    <div class="row">
-        {% for mentor in mentors %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-body text-center">
-                    {% if mentor.profile_picture %}
-                    <img src="{{ mentor.profile_picture.url }}" class="rounded-circle mb-3" width="100" height="100" alt="{{ mentor.full_name }}">
-                    {% else %}
-                    <div class="rounded-circle bg-secondary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 100px; height: 100px;">
-                        <span class="h3">{{ mentor.full_name.0 }}</span>
+        <div class="row g-4">
+            {% for mentor in mentors %}
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm border-0 mentor-card">
+                    <div class="card-body text-center p-4">
+                        <!-- Mentor Avatar -->
+                        {% if mentor.profile_picture %}
+                            <img src="{{ mentor.profile_picture.url }}" 
+                                 class="rounded-circle mb-3 border border-3 border-success" 
+                                 width="120" height="120" 
+                                 alt="{{ mentor.full_name }}"
+                                 style="object-fit: cover;">
+                        {% else %}
+                            <!-- 🖼️ IMAGE PLACEHOLDER: Use professional avatar images -->
+                            <!-- Suggested: Use https://ui-avatars.com/api/?name={{ mentor.full_name }}&size=120&background=198754&color=fff -->
+                            <div class="rounded-circle bg-success text-white d-inline-flex align-items-center justify-content-center mb-3 border border-3 border-success" 
+                                 style="width: 120px; height: 120px; font-size: 3rem;">
+                                {{ mentor.full_name.0 }}
+                            </div>
+                        {% endif %}
+                        
+                        <!-- Mentor Info -->
+                        <h5 class="card-title fw-bold mb-1">{{ mentor.full_name }}</h5>
+                        <p class="text-primary mb-1">
+                            <i class="bi bi-briefcase"></i> {{ mentor.job_title }}
+                        </p>
+                        <p class="text-muted mb-3">
+                            <i class="bi bi-building"></i> {{ mentor.company }}
+                        </p>
+                        
+                        <!-- Expertise Badge -->
+                        <span class="badge bg-primary mb-3 px-3 py-2">
+                            <i class="bi bi-star-fill"></i> {{ mentor.get_expertise_area_display }}
+                        </span>
+                        
+                        <!-- Bio -->
+                        <p class="card-text text-muted small mb-3">
+                            {{ mentor.bio|truncatewords:20 }}
+                        </p>
+                        
+                        <!-- Experience & Rate -->
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <div class="border rounded p-2">
+                                    <i class="bi bi-award text-success"></i>
+                                    <div class="fw-bold">{{ mentor.years_of_experience }} Years</div>
+                                    <small class="text-muted">Experience</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="border rounded p-2">
+                                    <i class="bi bi-cash text-success"></i>
+                                    <div class="fw-bold">KES {{ mentor.hourly_rate }}</div>
+                                    <small class="text-muted">Per Hour</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Contact Buttons -->
+                        <div class="d-grid gap-2">
+                            {% if mentor.linkedin %}
+                                <a href="{{ mentor.linkedin }}" target="_blank" class="btn btn-outline-primary">
+                                    <i class="bi bi-linkedin"></i> LinkedIn Profile
+                                </a>
+                            {% endif %}
+                            
+                            {% if mentor.email %}
+                                <a href="mailto:{{ mentor.email }}" class="btn btn-success">
+                                    <i class="bi bi-envelope"></i> Contact Mentor
+                                </a>
+                            {% endif %}
+                        </div>
                     </div>
-                    {% endif %}
-                    
-                    <h5 class="card-title">{{ mentor.full_name }}</h5>
-                    <p class="text-muted mb-1">{{ mentor.job_title }}</p>
-                    <p class="text-muted mb-3">{{ mentor.company }}</p>
-                    
-                    <span class="badge bg-primary mb-3">{{ mentor.get_expertise_area_display }}</span>
-                    
-                    <p class="card-text">{{ mentor.bio|truncatewords:20 }}</p>
-                    
-                    <p><strong>Experience:</strong> {{ mentor.years_of_experience }} years</p>
-                    <p><strong>Rate:</strong> KES {{ mentor.hourly_rate }}/hour</p>
-                    
-                    {% if mentor.linkedin %}
-                    <a href="{{ mentor.linkedin }}" target="_blank" class="btn btn-sm btn-outline-primary">LinkedIn</a>
-                    {% endif %}
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
     {% else %}
-    <div class="alert alert-info">No mentors available at the moment.</div>
+        <!-- Empty State -->
+        <div class="text-center py-5">
+            <i class="bi bi-people text-muted" style="font-size: 5rem;"></i>
+            <h3 class="mt-4 text-muted">No Mentors Available</h3>
+            <p class="text-muted">Check back soon! We're onboarding amazing mentors.</p>
+        </div>
     {% endif %}
 </div>
+
+<style>
+    .mentor-card {
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .mentor-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
+    }
+</style>
+
 {% endblock %}

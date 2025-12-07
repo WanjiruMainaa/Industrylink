@@ -4,16 +4,19 @@
 
 {% block content %}
 
-<!-- Hero Section -->
-<div class="hero">
+<!-- Hero Section with BACKGROUND IMAGE -->
+<!-- 🖼️ BACKGROUND IMAGE: Add a hero image here -->
+<!-- Suggested image: Students working together, modern workspace, technology background -->
+<!-- Download from: unsplash.com, pexels.com - search "students technology collaboration" -->
+<div class="hero" style="background: linear-gradient(rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9)), url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920') center/cover;">
     <div class="container text-center">
-        <h1 class="display-3 fw-bold">IndustryLink</h1>
-        <p class="tagline">Bridging Academia and Industry</p>
-        <p class="hero-description mx-auto" style="max-width: 700px;">
+        <h1 class="display-3 fw-bold animate-fade-in">IndustryLink</h1>
+        <p class="tagline animate-fade-in-delay">Bridging Academia and Industry</p>
+        <p class="hero-description mx-auto animate-fade-in-delay-2" style="max-width: 700px;">
             Connect with real-world projects, find mentors in your field, and build the skills 
             employers actually want. Your journey from student to professional starts here.
         </p>
-        <div class="mt-4">
+        <div class="mt-4 animate-fade-in-delay-3">
             {% if request.user.is_authenticated %}
                 <a href="{% url 'main:dashboard' %}" class="btn btn-light btn-lg px-5 me-3">
                     <i class="bi bi-speedometer2"></i> Go to Dashboard
@@ -36,7 +39,7 @@
 <!-- What is IndustryLink Section -->
 <div class="container my-5">
     <div class="row mb-5">
-        <div class="col-md-12 text-center">
+        <div class="col-md-12 text-center fade-in-on-scroll">
             <h2 class="display-5 fw-bold mb-3">What is IndustryLink?</h2>
             <p class="lead text-muted">A platform designed to close the gap between what you learn in class and what employers need</p>
         </div>
@@ -45,8 +48,8 @@
     <!-- Feature Cards -->
     <div class="row g-4">
         <!-- Projects Feature -->
-        <div class="col-md-4">
-            <div class="card h-100 shadow-sm border-0">
+        <div class="col-md-4 fade-in-on-scroll">
+            <div class="card h-100 shadow-sm border-0 feature-card">
                 <div class="card-body text-center p-4">
                     <div class="mb-3">
                         <i class="bi bi-folder-fill text-primary" style="font-size: 3rem;"></i>
@@ -64,8 +67,8 @@
         </div>
         
         <!-- Mentorship Feature -->
-        <div class="col-md-4">
-            <div class="card h-100 shadow-sm border-0">
+        <div class="col-md-4 fade-in-on-scroll">
+            <div class="card h-100 shadow-sm border-0 feature-card">
                 <div class="card-body text-center p-4">
                     <div class="mb-3">
                         <i class="bi bi-people-fill text-success" style="font-size: 3rem;"></i>
@@ -83,8 +86,8 @@
         </div>
         
         <!-- Skill Gap Feature -->
-        <div class="col-md-4">
-            <div class="card h-100 shadow-sm border-0">
+        <div class="col-md-4 fade-in-on-scroll">
+            <div class="card h-100 shadow-sm border-0 feature-card">
                 <div class="card-body text-center p-4">
                     <div class="mb-3">
                         <i class="bi bi-graph-up-arrow text-danger" style="font-size: 3rem;"></i>
@@ -103,33 +106,165 @@
     </div>
 </div>
 
+<!-- Sample Projects Preview Section -->
+<!-- 🖼️ PROJECT IMAGES: Sample project cards will show here -->
+<div class="bg-light py-5 my-5">
+    <div class="container">
+        <div class="row mb-4 fade-in-on-scroll">
+            <div class="col-12 text-center">
+                <h2 class="display-5 fw-bold">Featured Projects</h2>
+                <p class="lead text-muted">Check out what our talented students are building</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <!-- You can loop through 3 recent projects here or show static examples -->
+            <div class="col-md-4 fade-in-on-scroll">
+                <div class="card shadow-sm border-0">
+                    <!-- 🖼️ PROJECT THUMBNAIL: Add project image here -->
+                    <div class="bg-gradient text-white d-flex align-items-center justify-content-center" 
+                         style="height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="bi bi-laptop" style="font-size: 4rem;"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">E-Commerce Platform</h5>
+                        <p class="card-text text-muted">A full-stack online shopping platform built with Django and React</p>
+                        <span class="badge bg-success">Completed</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 fade-in-on-scroll">
+                <div class="card shadow-sm border-0">
+                    <div class="bg-gradient text-white d-flex align-items-center justify-content-center" 
+                         style="height: 200px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <i class="bi bi-phone" style="font-size: 4rem;"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Mobile Banking App</h5>
+                        <p class="card-text text-muted">Secure mobile banking solution with M-Pesa integration</p>
+                        <span class="badge bg-info">Ongoing</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 fade-in-on-scroll">
+                <div class="card shadow-sm border-0">
+                    <div class="bg-gradient text-white d-flex align-items-center justify-content-center" 
+                         style="height: 200px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <i class="bi bi-bar-chart" style="font-size: 4rem;"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Data Analytics Dashboard</h5>
+                        <p class="card-text text-muted">Real-time data visualization for business insights</p>
+                        <span class="badge bg-success">Completed</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4 fade-in-on-scroll">
+            <a href="{% url 'main:projects' %}" class="btn btn-primary btn-lg">
+                View All Projects <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Sample Mentors Preview Section -->
+<div class="container my-5">
+    <div class="row mb-4 fade-in-on-scroll">
+        <div class="col-12 text-center">
+            <h2 class="display-5 fw-bold">Meet Our Mentors</h2>
+            <p class="lead text-muted">Learn from experienced professionals in your field</p>
+        </div>
+    </div>
+    <div class="row g-4">
+        <!-- Static mentor examples -->
+        <div class="col-md-3 fade-in-on-scroll">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-body">
+                    <!-- 🖼️ MENTOR AVATAR: Use https://ui-avatars.com or actual photos -->
+                    <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" 
+                         style="width: 100px; height: 100px; font-size: 2.5rem;">
+                        JD
+                    </div>
+                    <h6 class="fw-bold">John Doe</h6>
+                    <p class="text-muted small mb-2">Senior Software Engineer</p>
+                    <span class="badge bg-primary">Technology</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 fade-in-on-scroll">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-body">
+                    <div class="rounded-circle bg-success text-white d-inline-flex align-items-center justify-content-center mb-3" 
+                         style="width: 100px; height: 100px; font-size: 2.5rem;">
+                        SK
+                    </div>
+                    <h6 class="fw-bold">Sarah Kimani</h6>
+                    <p class="text-muted small mb-2">UX Designer</p>
+                    <span class="badge bg-success">Design</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 fade-in-on-scroll">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-body">
+                    <div class="rounded-circle bg-warning text-white d-inline-flex align-items-center justify-content-center mb-3" 
+                         style="width: 100px; height: 100px; font-size: 2.5rem;">
+                        MO
+                    </div>
+                    <h6 class="fw-bold">Michael Ochieng</h6>
+                    <p class="text-muted small mb-2">Business Analyst</p>
+                    <span class="badge bg-warning text-dark">Business</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 fade-in-on-scroll">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-body">
+                    <div class="rounded-circle bg-danger text-white d-inline-flex align-items-center justify-content-center mb-3" 
+                         style="width: 100px; height: 100px; font-size: 2.5rem;">
+                        AW
+                    </div>
+                    <h6 class="fw-bold">Aisha Wanjiru</h6>
+                    <p class="text-muted small mb-2">Product Manager</p>
+                    <span class="badge bg-danger">Technology</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-4 fade-in-on-scroll">
+        <a href="{% url 'main:mentor' %}" class="btn btn-success btn-lg">
+            View All Mentors <i class="bi bi-arrow-right"></i>
+        </a>
+    </div>
+</div>
+
 <!-- How It Works Section -->
 <div class="bg-light py-5 my-5">
     <div class="container">
-        <h2 class="text-center display-5 fw-bold mb-5">How It Works</h2>
+        <h2 class="text-center display-5 fw-bold mb-5 fade-in-on-scroll">How It Works</h2>
         <div class="row">
-            <div class="col-md-3 text-center">
+            <div class="col-md-3 text-center fade-in-on-scroll">
                 <div class="mb-3">
                     <i class="bi bi-1-circle-fill text-primary" style="font-size: 3rem;"></i>
                 </div>
                 <h5 class="fw-bold">Sign Up</h5>
-                <p class="text-muted">Create your free student account in under 2 minutes</p>
+                <p class="text-muted">Create your free account in under 2 minutes</p>
             </div>
-            <div class="col-md-3 text-center">
+            <div class="col-md-3 text-center fade-in-on-scroll">
                 <div class="mb-3">
                     <i class="bi bi-2-circle-fill text-primary" style="font-size: 3rem;"></i>
                 </div>
                 <h5 class="fw-bold">Build Profile</h5>
                 <p class="text-muted">Add your projects, skills, and career interests</p>
             </div>
-            <div class="col-md-3 text-center">
+            <div class="col-md-3 text-center fade-in-on-scroll">
                 <div class="mb-3">
                     <i class="bi bi-3-circle-fill text-primary" style="font-size: 3rem;"></i>
                 </div>
                 <h5 class="fw-bold">Connect</h5>
                 <p class="text-muted">Find mentors and collaborate with peers</p>
             </div>
-            <div class="col-md-3 text-center">
+            <div class="col-md-3 text-center fade-in-on-scroll">
                 <div class="mb-3">
                     <i class="bi bi-4-circle-fill text-primary" style="font-size: 3rem;"></i>
                 </div>
@@ -140,8 +275,204 @@
     </div>
 </div>
 
+<!-- TESTIMONIALS SECTION -->
+<!-- 📸 README SCREENSHOT: Take screenshot of testimonials section -->
+<div class="container my-5">
+    <div class="row mb-5 fade-in-on-scroll">
+        <div class="col-12 text-center">
+            <h2 class="display-5 fw-bold">What Our Users Say</h2>
+            <p class="lead text-muted">Real stories from real students and mentors</p>
+        </div>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-4 fade-in-on-scroll">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                    </div>
+                    <p class="card-text text-muted">
+                        "IndustryLink helped me land my first internship! The skill gap analyzer showed me exactly what I needed to learn, and I found an amazing mentor who guided me through it all."
+                    </p>
+                    <div class="d-flex align-items-center mt-3">
+                        <!-- 🖼️ TESTIMONIAL AVATAR -->
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3" 
+                             style="width: 50px; height: 50px;">
+                            JM
+                        </div>
+                        <div>
+                            <h6 class="mb-0">James Mwangi</h6>
+                            <small class="text-muted">Computer Science Student</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 fade-in-on-scroll">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                    </div>
+                    <p class="card-text text-muted">
+                        "As a mentor, IndustryLink makes it so easy to give back to the community. I love seeing students grow and achieve their career goals!"
+                    </p>
+                    <div class="d-flex align-items-center mt-3">
+                        <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center me-3" 
+                             style="width: 50px; height: 50px;">
+                            EN
+                        </div>
+                        <div>
+                            <h6 class="mb-0">Emily Njeri</h6>
+                            <small class="text-muted">Senior Product Manager</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 fade-in-on-scroll">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                    </div>
+                    <p class="card-text text-muted">
+                        "The project showcase feature got me noticed by recruiters! I received three interview invitations within a month of posting my projects."
+                    </p>
+                    <div class="d-flex align-items-center mt-3">
+                        <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center me-3" 
+                             style="width: 50px; height: 50px;">
+                            PK
+                        </div>
+                        <div>
+                            <h6 class="mb-0">Peter Kamau</h6>
+                            <small class="text-muted">Data Science Student</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FAQ SECTION -->
+<!-- 📸 README SCREENSHOT: Take screenshot of FAQ section -->
+<div class="bg-light py-5 my-5">
+    <div class="container">
+        <div class="row mb-5 fade-in-on-scroll">
+            <div class="col-12 text-center">
+                <h2 class="display-5 fw-bold">Frequently Asked Questions</h2>
+                <p class="lead text-muted">Everything you need to know about IndustryLink</p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="accordion" id="faqAccordion">
+                    <!-- FAQ 1 -->
+                    <div class="accordion-item fade-in-on-scroll">
+                        <h2 class="accordion-header" id="faq1">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                                <i class="bi bi-question-circle me-2"></i> Is IndustryLink free to use?
+                            </button>
+                        </h2>
+                        <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes! IndustryLink is completely free for students. You can create your profile, showcase projects, connect with mentors, and use all our tools at no cost. Mentors may charge for their services, but the platform itself is free.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 2 -->
+                    <div class="accordion-item fade-in-on-scroll">
+                        <h2 class="accordion-header" id="faq2">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+                                <i class="bi bi-question-circle me-2"></i> Who can join IndustryLink?
+                            </button>
+                        </h2>
+                        <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                IndustryLink is open to university students, bootcamp learners, self-taught developers, and professionals who want to mentor. Whether you're in IT, business, design, or any other field, you're welcome here!
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 3 -->
+                    <div class="accordion-item fade-in-on-scroll">
+                        <h2 class="accordion-header" id="faq3">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+                                <i class="bi bi-question-circle me-2"></i> How does the Skill Gap Analyzer work?
+                            </button>
+                        </h2>
+                        <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Simply enter your current skills and select your target role. Our analyzer compares your skills against industry requirements and shows you exactly what you need to learn. We also provide free learning resources to help you bridge the gap!
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 4 -->
+                    <div class="accordion-item fade-in-on-scroll">
+                        <h2 class="accordion-header" id="faq4">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4">
+                                <i class="bi bi-question-circle me-2"></i> How do I find a mentor?
+                            </button>
+                        </h2>
+                        <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Browse our mentor directory to find professionals in your field of interest. You can filter by expertise area, experience level, and hourly rate. Once you find a mentor, you can contact them directly through their profile.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 5 -->
+                    <div class="accordion-item fade-in-on-scroll">
+                        <h2 class="accordion-header" id="faq5">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5">
+                                <i class="bi bi-question-circle me-2"></i> Can employers see my projects?
+                            </button>
+                        </h2>
+                        <div id="collapse5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes! All projects in our showcase are publicly visible. This means employers, NGOs, and organizations can discover your work and reach out to you with opportunities. Make sure to add detailed descriptions and GitHub links to stand out!
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 6 -->
+                    <div class="accordion-item fade-in-on-scroll">
+                        <h2 class="accordion-header" id="faq6">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6">
+                                <i class="bi bi-question-circle me-2"></i> What if I need help or have questions?
+                            </button>
+                        </h2>
+                        <div id="collapse6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                We're here to help! You can reach us through our Contact Us page, email us directly, or check out our community guidelines. We respond to all inquiries within 24 hours.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Call to Action -->
-<div class="container text-center my-5 py-5">
+<div class="container text-center my-5 py-5 fade-in-on-scroll">
     <h2 class="display-5 fw-bold mb-3">Ready to Start Your Journey?</h2>
     <p class="lead text-muted mb-4">Join hundreds of students already building their careers with IndustryLink</p>
     {% if not request.user.is_authenticated %}
@@ -150,5 +481,75 @@
         </a>
     {% endif %}
 </div>
+
+<!-- Scroll Animation Script -->
+<script>
+    // Fade in elements as they scroll into view
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in-active');
+            }
+        });
+    }, observerOptions);
+    
+    document.querySelectorAll('.fade-in-on-scroll').forEach(el => {
+        observer.observe(el);
+    });
+</script>
+
+<style>
+    .feature-card {
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
+    }
+    
+    /* Scroll animations */
+    .fade-in-on-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    
+    .fade-in-active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .animate-fade-in {
+        animation: fadeIn 1s ease-in;
+    }
+    
+    .animate-fade-in-delay {
+        animation: fadeIn 1s ease-in 0.3s backwards;
+    }
+    
+    .animate-fade-in-delay-2 {
+        animation: fadeIn 1s ease-in 0.6s backwards;
+    }
+    
+    .animate-fade-in-delay-3 {
+        animation: fadeIn 1s ease-in 0.9s backwards;
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
 
 {% endblock %}

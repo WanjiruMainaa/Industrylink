@@ -1,108 +1,239 @@
 {% extends 'base.html' %}
 
+{% block title %}Skill Gap Analyzer - IndustryLink{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
-    <h2 class="mb-4">Skills</h2>
-    
+
+<!-- 📸 README SCREENSHOT: Take screenshot of this page with results showing - call it "skill-gap-analyzer.png" -->
+
+<!-- Hero Section -->
+<div class="bg-danger text-white py-5 mb-4">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold">
+            <i class="bi bi-graph-up-arrow"></i> Skill Gap Analyzer
+        </h1>
+        <p class="lead">Discover what skills you need to land your dream job</p>
+    </div>
+</div>
+
+<div class="container mb-5">
     <div class="row">
-        <div class="col-md-6">
-            <div class="card">
+        <!-- Left Column - Input Form -->
+        <div class="col-md-5 mb-4">
+            <div class="card shadow-sm border-0 sticky-top" style="top: 20px;">
                 <div class="card-header bg-primary text-white">
-                    <h5>Analyze Your Skills</h5>
+                    <h5 class="mb-0">
+                        <i class="bi bi-clipboard-check"></i> Analyze Your Skills
+                    </h5>
                 </div>
                 <div class="card-body">
                     <form method="POST">
                         {% csrf_token %}
                         
-                        <div class="mb-3">
-                            <label class="form-label">Target Role</label>
-                            <select name="target_role" class="form-select" required>
-                                <option value="">Select a role...</option>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">
+                                <i class="bi bi-bullseye"></i> Target Role
+                            </label>
+                            <select name="target_role" class="form-select form-select-lg" required>
+                                <option value="">Select your dream role...</option>
                                 {% for role in roles %}
-                                <option value="{{ role }}">{{ role }}</option>
+                                    <option value="{{ role }}" {% if results and results.target_role == role %}selected{% endif %}>
+                                        {{ role }}
+                                    </option>
                                 {% endfor %}
                             </select>
+                            <small class="text-muted">What job are you aiming for?</small>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Your Current Skills (comma-separated)</label>
-                            <textarea name="user_skills" class="form-control" rows="3" placeholder="e.g., Python, Django, HTML, CSS" required></textarea>
-                            <small class="text-muted">Enter your skills separated by commas</small>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">
+                                <i class="bi bi-star"></i> Your Current Skills
+                            </label>
+                            <textarea name="user_skills" 
+                                      class="form-control" 
+                                      rows="4" 
+                                      placeholder="Python, Django, HTML, CSS, JavaScript" 
+                                      required>{% if request.POST.user_skills %}{{ request.POST.user_skills }}{% endif %}</textarea>
+                            <small class="text-muted">
+                                <i class="bi bi-info-circle"></i> Enter skills separated by commas
+                            </small>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Analyze</button>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-search"></i> Analyze My Skills
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6">
+        <!-- Right Column - Results -->
+        <div class="col-md-7">
             {% if results %}
-            <div class="card">
-            <div class="card-header bg-success text-white">
-                <h5>Results for {{ results.target_role }}</h5>
-            </div>
-            <div class="card-body">
-                <div class="mb-4">
-                    <h6>Your Progress</h6>
-                    <div class="progress">
-                        <div class="progress-bar bg-success" style="width: {{ results.progress_percentage }}%">
-                            {{ results.progress_percentage }}%
+                <!-- Results Card -->
+                <div class="card shadow-lg border-0 mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-bar-chart"></i> Results for {{ results.target_role }}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Progress Bar -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="mb-0">Your Progress</h6>
+                                <span class="badge bg-success fs-6">{{ results.progress_percentage }}% Complete</span>
+                            </div>
+                            <div class="progress" style="height: 30px;">
+                                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" 
+                                     style="width: {{ results.progress_percentage }}%;"
+                                     role="progressbar">
+                                    {{ results.progress_percentage }}%
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Skills You Have -->
+                        <div class="mb-4 p-3 bg-light rounded">
+                            <h6 class="text-success mb-3">
+                                <i class="bi bi-check-circle-fill"></i> Skills You Already Have 
+                                <span class="badge bg-success">{{ results.matching_skills|length }}</span>
+                            </h6>
+                            {% if results.matching_skills %}
+                                <div class="d-flex flex-wrap gap-2">
+                                    {% for skill in results.matching_skills %}
+                                        <span class="badge bg-success fs-6 px-3 py-2">
+                                            <i class="bi bi-check2"></i> {{ skill }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <p class="text-muted mb-0">No matching skills yet - but that's okay! Everyone starts somewhere.</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Skills You Need -->
+                        <div class="mb-4 p-3 bg-light rounded">
+                            <h6 class="text-danger mb-3">
+                                <i class="bi bi-exclamation-circle-fill"></i> Skills You Need to Learn 
+                                <span class="badge bg-danger">{{ results.missing_skills|length }}</span>
+                            </h6>
+                            {% if results.missing_skills %}
+                                <div class="d-flex flex-wrap gap-2">
+                                    {% for skill in results.missing_skills %}
+                                        <span class="badge bg-danger fs-6 px-3 py-2">
+                                            <i class="bi bi-x-circle"></i> {{ skill }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="alert alert-success mb-0">
+                                    <i class="bi bi-trophy-fill"></i> <strong>Congratulations!</strong> You have all the required skills for this role!
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Motivational Message -->
+                        {% if results.progress_percentage >= 70 %}
+                            <div class="alert alert-success">
+                                <h5><i class="bi bi-emoji-smile"></i> Great job!</h5>
+                                <p class="mb-0">You're well on your way to becoming a {{ results.target_role }}! Keep pushing forward!</p>
+                            </div>
+                        {% elif results.progress_percentage >= 40 %}
+                            <div class="alert alert-warning">
+                                <h5><i class="bi bi-emoji-neutral"></i> You're making progress!</h5>
+                                <p class="mb-0">Keep learning to close the gap. Every skill you learn brings you closer to your goal!</p>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info">
+                                <h5><i class="bi bi-lightbulb"></i> Don't worry!</h5>
+                                <p class="mb-0">Everyone starts somewhere. Focus on learning one skill at a time. You've got this!</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Learning Resources Card -->
+                {% if results.missing_skills %}
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-book"></i> Recommended Learning Resources
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 h-100">
+                                    <h6 class="text-primary">
+                                        <i class="bi bi-youtube"></i> YouTube
+                                    </h6>
+                                    <p class="small text-muted mb-2">Free video tutorials</p>
+                                    <a href="https://www.youtube.com/results?search_query={{ results.missing_skills.0 }}+tutorial" 
+                                       target="_blank" 
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-play-circle"></i> Watch Tutorials
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 h-100">
+                                    <h6 class="text-success">
+                                        <i class="bi bi-mortarboard"></i> Coursera
+                                    </h6>
+                                    <p class="small text-muted mb-2">Professional courses</p>
+                                    <a href="https://www.coursera.org/search?query={{ results.missing_skills.0 }}" 
+                                       target="_blank" 
+                                       class="btn btn-sm btn-outline-success">
+                                        <i class="bi bi-book"></i> Find Courses
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 h-100">
+                                    <h6 class="text-warning">
+                                        <i class="bi bi-code-slash"></i> FreeCodeCamp
+                                    </h6>
+                                    <p class="small text-muted mb-2">Interactive coding lessons</p>
+                                    <a href="https://www.freecodecamp.org/" 
+                                       target="_blank" 
+                                       class="btn btn-sm btn-outline-warning">
+                                        <i class="bi bi-laptop"></i> Start Learning
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 h-100">
+                                    <h6 class="text-danger">
+                                        <i class="bi bi-file-text"></i> MDN Docs
+                                    </h6>
+                                    <p class="small text-muted mb-2">Developer documentation</p>
+                                    <a href="https://developer.mozilla.org/" 
+                                       target="_blank" 
+                                       class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-book"></i> Read Docs
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="mb-3">
-                    <h6 class="text-success">Skills You Have</h6>
-                    {% if results.matching_skills %}
-                    <div class="d-flex flex-wrap gap-2">
-                        {% for skill in results.matching_skills %}
-                        <span class="badge bg-success">{{ skill }}</span>
-                        {% endfor %}
-                    </div>
-                    {% else %}
-                    <p class="text-muted">No matching skills yet</p>
-                    {% endif %}
-                </div>
-
-                <div class="mb-3">
-                    <h6 class="text-danger">Skills You Need</h6>
-                    {% if results.missing_skills %}
-                    <div class="d-flex flex-wrap gap-2">
-                        {% for skill in results.missing_skills %}
-                        <span class="badge bg-danger">{{ skill }}</span>
-                        {% endfor %}
-                    </div>
-                    {% else %}
-                    <p class="text-success">Congratulations! You have all required skills!</p>
-                    {% endif %}
-                </div>
-
-                {% if results.missing_skills %}
-                <div class="alert alert-info mt-3">
-                    <h6>Recommended Resources:</h6>
-                    <ul>
-                        <li><a href="https://www.coursera.org/" target="_blank">Coursera</a> - Online courses</li>
-                        <li><a href="https://www.youtube.com/" target="_blank">YouTube</a> - Video tutorials</li>
-                    </ul>
-                </div>
                 {% endif %}
 
-                {% if results.progress_percentage >= 70 %}
-                <div class="alert alert-success">
-                    Great job! You're well on your way to becoming a {{ results.target_role }}!
+            {% else %}
+                <!-- Initial State - No Results Yet -->
+                <div class="card shadow-sm border-0">
+                    <div class="card-body text-center py-5">
+                        <i class="bi bi-graph-up text-muted" style="font-size: 5rem;"></i>
+                        <h3 class="mt-4">Ready to Find Your Skill Gap?</h3>
+                        <p class="text-muted">Select your target role and enter your current skills to get started!</p>
+                    </div>
                 </div>
-                {% elif results.progress_percentage >= 40 %}
-                <div class="alert alert-warning">
-                    You're making progress! Keep learning to close the gap.
-                </div>
-                {% else %}
-                <div class="alert alert-info">
-                    Don't worry! Everyone starts somewhere. Focus on learning one skill at a time.
-                </div>
-                {% endif %}
-            </div>
+            {% endif %}
         </div>
-        {% endif %}
     </div>
 </div>
+
+{% endblock %}
