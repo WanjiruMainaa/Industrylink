@@ -61,15 +61,19 @@
                             <small class="text-muted">Tell us about yourself, your interests, and career goals</small>
                         </div>
                         
+                        
                         <div class="mb-3">
                             <label class="form-label fw-bold">
-                                <i class="bi bi-star"></i> Skills (comma-separated)
+                                <i class="bi bi-star-fill"></i> Skills (comma-separated)
                             </label>
                             {{ form.skills }}
                             {% if form.skills.errors %}
                                 <div class="text-danger small mt-1">{{ form.skills.errors }}</div>
                             {% endif %}
-                            <small class="text-muted">e.g., Python, Django, JavaScript, React</small>
+                            <small class="text-muted">
+                                <i class="bi bi-info-circle"></i> 
+                                Example: Python, Django, JavaScript, React, SQL, Git
+                            </small>
                         </div>
                         
                         <div class="mb-4">

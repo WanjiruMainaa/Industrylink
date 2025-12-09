@@ -5,7 +5,8 @@
 {% block content %}
 
 {% if add_mode %}
-    <!-- ADD PROJECT MODE -->
+
+    
     <div class="container mt-5 mb-5">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -56,8 +57,6 @@
     </div>
 
 {% else %}
-    <!-- PROJECT SHOWCASE MODE -->
-    <!-- 📸 README SCREENSHOT: Take screenshot of this page for README - call it "projects-showcase.png" -->
     
     <!-- Hero Section for Projects Page -->
     <div class="bg-primary text-white py-5 mb-4">
@@ -73,6 +72,30 @@
         {% if projects %}
             <div class="row g-4">
                 {% for project in projects %}
+                {% for project in projects %}
+                <div class="col-md-4 mb-4">
+                <div class="card h-100">
+       
+        
+                    <div class="card-footer">
+                    {% if project.github_link %}
+                        <a href="{{ project.github_link }}" target="_blank" class="btn btn-sm btn-dark">GitHub</a>
+                    {% endif %}
+           
+                    {% if is_mentor and project.status != 'completed' %}
+                        <a href="{% url 'main:review_project' project.id %}" class="btn btn-sm btn-warning">
+                            <i class="bi bi-eye"></i> Review
+                        </a>
+                        <a href="{% url 'main:mark_complete' project.id %}" class="btn btn-sm btn-success" 
+                         onclick="return confirm('Mark this project as completed?')">
+                            <i class="bi bi-check-circle"></i> Mark Complete
+                        </a>
+                    {% endif %}
+                    </div>
+                </div>
+                </div>
+                    {% endfor %}
+
                 <div class="col-md-4">
                     <div class="card h-100 shadow-sm border-0 project-card">
                         <!-- Project Image or Placeholder -->
@@ -134,7 +157,7 @@
                 {% endfor %}
             </div>
         {% else %}
-            <!-- Empty State -->
+         
             <div class="text-center py-5">
                 <i class="bi bi-folder-x text-muted" style="font-size: 5rem;"></i>
                 <h3 class="mt-4 text-muted">No Projects Yet</h3>

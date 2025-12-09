@@ -5,187 +5,251 @@
 {% block content %}
 <div class="container mt-5 mb-5">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card shadow-lg border-0">
                 <div class="card-header bg-success text-white text-center py-4">
                     <h3 class="mb-0">
-                        <i class="bi bi-person-plus"></i> Create Your Account
+                        <i class="bi bi-person-plus"></i> Join IndustryLink
                     </h3>
-                    <p class="mb-0 mt-2">Join IndustryLink and start your journey!</p>
+                    <p class="mb-0 mt-2">Select your role to get started</p>
                 </div>
                 <div class="card-body p-4">
-                    <form method="POST" autocomplete="off">
-                        {% csrf_token %}
+                    
+                    <!-- FIXED VISIBLE BUTTONS -->
+                    <div class="btn-group w-100 mb-4" role="group">
+                        <input type="radio" class="btn-check" name="usertype" id="student-btn" checked>
+                        <label class="btn btn-outline-primary" for="student-btn" onclick="showForm('student')">
+                            <i class="bi bi-mortarboard"></i> Student
+                        </label>
                         
-                        <!-- Display form errors at the top -->
-                        {% if form.non_field_errors %}
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                {{ form.non_field_errors }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            </div>
-                        {% endif %}
+                        <input type="radio" class="btn-check" name="usertype" id="mentor-btn">
+                        <label class="btn btn-outline-success" for="mentor-btn" onclick="showForm('mentor')">
+                            <i class="bi bi-person-workspace"></i> Mentor
+                        </label>
                         
-                        <!-- USER TYPE SELECTION - NEW! -->
-                        <div class="mb-4 p-3 bg-light rounded">
-                            <label class="form-label fw-bold">
-                                <i class="bi bi-person-badge"></i> I am joining as:
-                            </label>
-                            <div class="row g-2">
-                                <div class="col-md-3">
-                                    <input type="radio" class="btn-check" name="user_type" id="student" value="student" checked>
-                                    <label class="btn btn-outline-primary w-100" for="student">
-                                        <i class="bi bi-mortarboard"></i><br>Student
-                                    </label>
-                                </div>
-                                <div class="col-md-3">
-                                    <input type="radio" class="btn-check" name="user_type" id="mentor" value="mentor">
-                                    <label class="btn btn-outline-success w-100" for="mentor">
-                                        <i class="bi bi-person-workspace"></i><br>Mentor
-                                    </label>
-                                </div>
-                                <div class="col-md-3">
-                                    <input type="radio" class="btn-check" name="user_type" id="organization" value="organization">
-                                    <label class="btn btn-outline-warning w-100" for="organization">
-                                        <i class="bi bi-building"></i><br>Organization
-                                    </label>
-                                </div>
-                                <div class="col-md-3">
-                                    <input type="radio" class="btn-check" name="user_type" id="freelancer" value="freelancer">
-                                    <label class="btn btn-outline-info w-100" for="freelancer">
-                                        <i class="bi bi-briefcase"></i><br>Freelancer
-                                    </label>
-                                </div>
-                            </div>
-                            <small class="text-muted mt-2 d-block">
-                                <i class="bi bi-info-circle"></i> This helps us customize your experience
-                            </small>
-                        </div>
+                        <input type="radio" class="btn-check" name="usertype" id="freelancer-btn">
+                        <label class="btn btn-outline-info" for="freelancer-btn" onclick="showForm('freelancer')">
+                            <i class="bi bi-briefcase"></i> Freelancer
+                        </label>
                         
-                        <div class="row">
+                        <input type="radio" class="btn-check" name="usertype" id="org-btn">
+                        <label class="btn btn-outline-warning" for="org-btn" onclick="showForm('org')">
+                            <i class="bi bi-building"></i> Organization
+                        </label>
+                    </div>
 
-                            <!-- Username -->
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">
-                                    <i class="bi bi-person"></i> {{ form.username.label }}
-                                </label>
-                                {{ form.username }}
-                                {% if form.username.errors %}
-                                    <div class="text-danger small mt-1">
-                                        {{ form.username.errors }}
-                                    </div>
-                                {% endif %}
-                                <small class="form-text text-muted">
-                                    Letters, digits and @/./+/-/_ only
-                                </small>
+                    <!-- STUDENT FORM -->
+                    <div id="student-form">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="user_type" value="student">
+                            
+                            <div class="alert alert-info">
+                                <strong>Student Registration</strong>
                             </div>
                             
-                            <!-- Email -->
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">
-                                    <i class="bi bi-envelope"></i> {{ form.email.label }}
-                                </label>
-                                {{ form.email }}
-                                {% if form.email.errors %}
-                                    <div class="text-danger small mt-1">
-                                        {{ form.email.errors }}
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        
-                        <!-- STUDENT-SPECIFIC FIELDS (Show by default, hide if other user type selected) -->
-                        <div id="studentFields">
                             <div class="row">
-                                <!-- Institution -->
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label fw-bold">
-                                        <i class="bi bi-building"></i> {{ form.institution.label }}
-                                    </label>
-                                    {{ form.institution }}
-                                    {% if form.institution.errors %}
-                                        <div class="text-danger small mt-1">
-                                            {{ form.institution.errors }}
-                                        </div>
-                                    {% endif %}
+                                    <label>Username *</label>
+                                    <input type="text" name="username" class="form-control" required>
                                 </div>
-                                
-                                <!-- Course -->
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label fw-bold">
-                                        <i class="bi bi-book"></i> {{ form.course.label }}
-                                    </label>
-                                    {{ form.course }}
-                                    {% if form.course.errors %}
-                                        <div class="text-danger small mt-1">
-                                            {{ form.course.errors }}
-                                        </div>
-                                    {% endif %}
+                                    <label>Email *</label>
+                                    <input type="email" name="email" class="form-control" required>
                                 </div>
                             </div>
                             
-                            <!-- Year of Study -->
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label>Institution *</label>
+                                    <input type="text" name="institution" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Course *</label>
+                                    <input type="text" name="course" class="form-control" required>
+                                </div>
+                            </div>
+                            
                             <div class="mb-3">
-                                <label class="form-label fw-bold">
-                                    <i class="bi bi-calendar"></i> {{ form.year_of_study.label }}
-                                </label>
-                                {{ form.year_of_study }}
-                                {% if form.year_of_study.errors %}
-                                    <div class="text-danger small mt-1">
-                                        {{ form.year_of_study.errors }}
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        
-                        <!-- MESSAGE FOR OTHER USER TYPES -->
-                        <div id="otherUserTypeMessage" class="alert alert-info mb-3" style="display: none;">
-                            <i class="bi bi-info-circle"></i> 
-                            <strong>Note:</strong> After registration, please complete your profile in the dashboard with your professional details.
-                        </div>
-                        
-                        <div class="row">
-                            <!-- Password -->
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">
-                                    <i class="bi bi-lock"></i> {{ form.password1.label }}
-                                </label>
-                                {{ form.password1 }}
-                                {% if form.password1.errors %}
-                                    <div class="text-danger small mt-1">
-                                        {{ form.password1.errors }}
-                                    </div>
-                                {% endif %}
-                                <small class="form-text text-muted">
-                                    At least 8 characters
-                                </small>
+                                <label>Year of Study *</label>
+                                <select name="year_of_study" class="form-select" required>
+                                    <option value="">Select...</option>
+                                    <option value="1">1st Year</option>
+                                    <option value="2">2nd Year</option>
+                                    <option value="3">3rd Year</option>
+                                    <option value="4">4th Year</option>
+                                </select>
                             </div>
                             
-                            <!-- Confirm Password -->
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">
-                                    <i class="bi bi-lock-fill"></i> {{ form.password2.label }}
-                                </label>
-                                {{ form.password2 }}
-                                {% if form.password2.errors %}
-                                    <div class="text-danger small mt-1">
-                                        {{ form.password2.errors }}
-                                    </div>
-                                {% endif %}
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label>Password *</label>
+                                    <input type="password" name="password1" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Confirm Password *</label>
+                                    <input type="password" name="password2" class="form-control" required>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-success btn-lg w-100 mb-3 mt-3">
-                            <i class="bi bi-person-plus"></i> Create Account
-                        </button>
-                    </form>
+                            
+                            <button type="submit" class="btn btn-success btn-lg w-100">Register</button>
+                        </form>
+                    </div>
+
+                    <!-- MENTOR FORM -->
+                    <div id="mentor-form" style="display:none;">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="user_type" value="mentor">
+                            
+                            <div class="alert alert-success">
+                                <strong>Mentor Registration</strong>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label>Username *</label>
+                                    <input type="text" name="username" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Email *</label>
+                                    <input type="email" name="email" class="form-control" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label>Job Title *</label>
+                                    <input type="text" name="job_title" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Company *</label>
+                                    <input type="text" name="company" class="form-control" required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label>Years of Experience *</label>
+                                <input type="number" name="years_of_experience" class="form-control" required>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label>Password *</label>
+                                    <input type="password" name="password1" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Confirm Password *</label>
+                                    <input type="password" name="password2" class="form-control" required>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-success btn-lg w-100">Register</button>
+                        </form>
+                    </div>
+
+                    <!-- FREELANCER FORM -->
+                    <div id="freelancer-form" style="display:none;">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="user_type" value="freelancer">
+                            
+                            <div class="alert alert-info">
+                                <strong>Freelancer Registration</strong>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label>Username *</label>
+                                    <input type="text" name="username" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Email *</label>
+                                    <input type="email" name="email" class="form-control" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label>Specialization *</label>
+                                    <input type="text" name="job_title" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Years of Experience *</label>
+                                    <input type="number" name="years_of_experience" class="form-control" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label>Password *</label>
+                                    <input type="password" name="password1" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Confirm Password *</label>
+                                    <input type="password" name="password2" class="form-control" required>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-success btn-lg w-100">Register</button>
+                        </form>
+                    </div>
+
+                    <!-- ORGANIZATION FORM -->
+                    <div id="org-form" style="display:none;">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="user_type" value="organization">
+                            
+                            <div class="alert alert-warning">
+                                <strong>Organization Registration</strong>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label>Username *</label>
+                                    <input type="text" name="username" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Email *</label>
+                                    <input type="email" name="email" class="form-control" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label>Organization Name *</label>
+                                    <input type="text" name="organization_name" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Type *</label>
+                                    <select name="organization_type" class="form-select" required>
+                                        <option value="">Select...</option>
+                                        <option value="NGO">NGO</option>
+                                        <option value="Startup">Startup</option>
+                                        <option value="Corporate">Corporate</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label>Password *</label>
+                                    <input type="password" name="password1" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label>Confirm Password *</label>
+                                    <input type="password" name="password2" class="form-control" required>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-success btn-lg w-100">Register</button>
+                        </form>
+                    </div>
                     
-                    <hr>
-                    
-                    <p class="text-center mb-0">
-                        Already have an account? 
-                        <a href="{% url 'main:login' %}" class="fw-bold text-decoration-none">
-                            Login here <i class="bi bi-arrow-right"></i>
-                        </a>
+                    <hr class="mt-4">
+                    <p class="text-center">
+                        Already have an account? <a href="{% url 'main:login' %}">Login</a>
                     </p>
                 </div>
             </div>
@@ -193,37 +257,13 @@
     </div>
 </div>
 
-<!-- JavaScript to toggle fields based on user type -->
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const userTypeRadios = document.querySelectorAll('input[name="user_type"]');
-        const studentFields = document.getElementById('studentFields');
-        const otherMessage = document.getElementById('otherUserTypeMessage');
-        
-        userTypeRadios.forEach(radio => {
-            radio.addEventListener('change', function() {
-                if (this.value === 'student') {
-                    // Show student fields
-                    studentFields.style.display = 'block';
-                    otherMessage.style.display = 'none';
-                    
-                    // Make student fields required
-                    studentFields.querySelectorAll('input, select').forEach(field => {
-                        field.required = true;
-                    });
-                } else {
-                    // Hide student fields for other user types
-                    studentFields.style.display = 'none';
-                    otherMessage.style.display = 'block';
-                    
-                    // Make student fields optional
-                    studentFields.querySelectorAll('input, select').forEach(field => {
-                        field.required = false;
-                    });
-                }
-            });
-        });
-    });
+function showForm(type) {
+    document.getElementById('student-form').style.display = 'none';
+    document.getElementById('mentor-form').style.display = 'none';
+    document.getElementById('freelancer-form').style.display = 'none';
+    document.getElementById('org-form').style.display = 'none';
+    document.getElementById(type + '-form').style.display = 'block';
+}
 </script>
-
 {% endblock %}

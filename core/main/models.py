@@ -22,6 +22,16 @@ class StudentProfile(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.course}"
     
+class UserProfile(models.Model):
+    ROLE_CHOICES = [
+        ('student', 'Student'),
+        ('mentor', 'Mentor'),
+        ('organization', 'Organization'),
+        ('freelancer', 'Freelancer'),
+    ]
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    
 
 class Skill(models.Model):
     SKILLS_LEVEL_CHOICES = [

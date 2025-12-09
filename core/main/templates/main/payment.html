@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+
+{% block title %}Payment - IndustryLink{% endblock %}
+
+{% block content %}
+
+<div class="hero" style="background: linear-gradient(rgba(25, 135, 84, 0.9), rgba(13, 110, 253, 0.9)), url('https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?w=1920') center/cover;">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold">
+            <i class="bi bi-credit-card"></i> Make a Payment
+        </h1>
+        <p class="lead">Support mentors, tip students, or contribute to platform maintenance.</p>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-success text-white py-3">
+                    <h4 class="mb-0">
+                        <i class="bi bi-wallet2"></i> Payment Details
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" id="paymentForm">
+                        {% csrf_token %}
+                        
+                        <!-- Payment Type Selection -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">
+                                <i class="bi bi-tag"></i> What are you paying for?
+                            </label>
+                            <select name="payment_type" id="paymentType" class="form-select form-select-lg" required>
+                                <option value="">Select payment type...</option>
+                                <option value="mentor_session">Mentor Session</option>
+                                <option value="tip_student">Tip a Student</option>
+                                <option value="donation">Platform Donation</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Mentor Selection (shows only if mentor_session selected) -->
+                        <div id="mentorSelection" class="mb-4" style="display: none;">
+                            <label class="form-label fw-bold">
+                                <i class="bi bi-person"></i> Select Mentor
+                            </label>
+                            <select name="mentor_id" class="form-select">
+                                <option value="">Choose a mentor...</option>
+                                {% for mentor in mentors %}
+                                <option value="{{ mentor.id }}">
+                                    {{ mentor.full_name }} - KES {{ mentor.hourly_rate }}/hour
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <!-- Student Selection (shown only if tip_student selected) -->
+                        <div id="studentSelection" class="mb-4" style="display: none;">
+                            <label class="form-label fw-bold">
+                                <i class="bi bi-person"></i> Select Student
+                            </label>
+                            <select name="student_id" class="form-select">
+                                <option value="">Choose a student...</option>
+                                
+                                <option value="1">Student 1 - Great Project</option>
+                                <option value="2">Student 2 - Amazing Work</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Amount -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">
+                                <i class="bi bi-cash"></i> Amount (KES)
+                            </label>
+                            <input type="number" 
+                                   name="amount" 
+                                   id="amount"
+                                   class="form-control form-control-lg" 
+                                   placeholder="Enter amount"
+                                   min="10"
+                                   required>
+                            <small class="text-muted">Minimum amount: KES 10</small>
+                        </div>
+                        
+                        <!-- Phone Number -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">
+                                <i class="bi bi-phone"></i> M-Pesa Phone Number
+                            </label>
+                            <input type="tel" 
+                                   name="phone_number" 
+                                   class="form-control form-control-lg" 
+                                   placeholder="+254712345678"
+                                   pattern="\+254[0-9]{9}"
+                                   required>
+                            <small class="text-muted">Format: +254XXXXXXXXX (no spaces)</small>
+                        </div>
+                        
+                       
+                        <div class="alert alert-info mb-4">
+                            <h6><i class="bi bi-info-circle"></i> Payment Summary</h6>
+                            <p class="mb-1"><strong>Type:</strong> <span id="summaryType">-</span></p>
+                            <p class="mb-1"><strong>Amount:</strong> KES <span id="summaryAmount">0</span></p>
+                            <p class="mb-0"><strong>Payment Method:</strong> M-Pesa</p>
+                        </div>
+                        
+                    
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg" id="submitBtn">
+                                <i class="bi bi-send"></i> Initiate M-Pesa Payment
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Payment Instructions -->
+            <div class="card shadow-sm border-0 mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-lightbulb"></i> How it Works
+                    </h5>
+                    <ol class="mb-0">
+                        <li>Select what you're paying for</li>
+                        <li>Enter the amount and your M-Pesa phone number</li>
+                        <li>Click "Initiate Payment"</li>
+                        <li>You'll receive an STK push prompt on your phone</li>
+                        <li>Enter your M-Pesa PIN to complete the payment</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Pricing Card -->
+        <div class="col-md-5">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-tag-fill"></i> Standard Rates
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-light rounded">
+                        <div>
+                            <h6 class="mb-0">Mentor Sessions</h6>
+                            <small class="text-muted">Per hour</small>
+                        </div>
+                        <h5 class="mb-0 text-success">KES 2,000</h5>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-light rounded">
+                        <div>
+                            <h6 class="mb-0">Student Tips</h6>
+                            <small class="text-muted">Any amount</small>
+                        </div>
+                        <h5 class="mb-0 text-success">KES 500+</h5>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded">
+                        <div>
+                            <h6 class="mb-0">Platform Donation</h6>
+                            <small class="text-muted">Support us</small>
+                        </div>
+                        <h5 class="mb-0 text-success">KES 200+</h5>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Security Badge -->
+            <div class="card shadow-sm border-0 bg-light">
+                <div class="card-body text-center">
+                    <i class="bi bi-shield-check text-success" style="font-size: 3rem;"></i>
+                    <h6 class="mt-3 mb-2">Secure Payments</h6>
+                    <p class="text-muted small mb-0">
+                        All payments are processed through M-Pesa's secure payment gateway. 
+                        Your financial information is safe and never stored on our servers.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for dynamic form -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const paymentType = document.getElementById('paymentType');
+        const mentorSelection = document.getElementById('mentorSelection');
+        const studentSelection = document.getElementById('studentSelection');
+        const amountInput = document.getElementById('amount');
+        const summaryType = document.getElementById('summaryType');
+        const summaryAmount = document.getElementById('summaryAmount');
+        
+        // Show/hide sections based on payment type
+        paymentType.addEventListener('change', function() {
+            mentorSelection.style.display = 'none';
+            studentSelection.style.display = 'none';
+            
+            if (this.value === 'mentor_session') {
+                mentorSelection.style.display = 'block';
+                amountInput.value = '1000'; // Default mentor rate
+                summaryType.textContent = 'Mentor Session';
+            } else if (this.value === 'tip_student') {
+                studentSelection.style.display = 'block';
+                amountInput.value = '100';
+                summaryType.textContent = 'Student Tip';
+            } else if (this.value === 'donation') {
+                amountInput.value = '50';
+                summaryType.textContent = 'Platform Donation';
+            } else {
+                summaryType.textContent = '-';
+            }
+            
+            summaryAmount.textContent = amountInput.value;
+        });
+        
+        // Update summary when amount changes
+        amountInput.addEventListener('input', function() {
+            summaryAmount.textContent = this.value || '0';
+        });
+    });
+</script>
+
+{% endblock %}
