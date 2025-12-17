@@ -1,269 +1,538 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Register - IndustryLink{% endblock %}
 
 {% block content %}
-<div class="container mt-5 mb-5">
-    <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="card shadow-lg border-0">
-                <div class="card-header bg-success text-white text-center py-4">
-                    <h3 class="mb-0">
-                        <i class="bi bi-person-plus"></i> Join IndustryLink
-                    </h3>
-                    <p class="mb-0 mt-2">Select your role to get started</p>
-                </div>
-                <div class="card-body p-4">
-                    
-                    <!-- FIXED VISIBLE BUTTONS -->
-                    <div class="btn-group w-100 mb-4" role="group">
-                        <input type="radio" class="btn-check" name="usertype" id="student-btn" checked>
-                        <label class="btn btn-outline-primary" for="student-btn" onclick="showForm('student')">
-                            <i class="bi bi-mortarboard"></i> Student
-                        </label>
-                        
-                        <input type="radio" class="btn-check" name="usertype" id="mentor-btn">
-                        <label class="btn btn-outline-success" for="mentor-btn" onclick="showForm('mentor')">
-                            <i class="bi bi-person-workspace"></i> Mentor
-                        </label>
-                        
-                        <input type="radio" class="btn-check" name="usertype" id="freelancer-btn">
-                        <label class="btn btn-outline-info" for="freelancer-btn" onclick="showForm('freelancer')">
-                            <i class="bi bi-briefcase"></i> Freelancer
-                        </label>
-                        
-                        <input type="radio" class="btn-check" name="usertype" id="org-btn">
-                        <label class="btn btn-outline-warning" for="org-btn" onclick="showForm('org')">
-                            <i class="bi bi-building"></i> Organization
-                        </label>
-                    </div>
 
-                    <!-- STUDENT FORM -->
-                    <div id="student-form">
-                        <form method="POST">
-                            {% csrf_token %}
-                            <input type="hidden" name="user_type" value="student">
-                            
-                            <div class="alert alert-info">
-                                <strong>Student Registration</strong>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label>Username *</label>
-                                    <input type="text" name="username" class="form-control" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label>Email *</label>
-                                    <input type="email" name="email" class="form-control" required>
-                                </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label>Institution *</label>
-                                    <input type="text" name="institution" class="form-control" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label>Course *</label>
-                                    <input type="text" name="course" class="form-control" required>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label>Year of Study *</label>
-                                <select name="year_of_study" class="form-select" required>
-                                    <option value="">Select...</option>
-                                    <option value="1">1st Year</option>
-                                    <option value="2">2nd Year</option>
-                                    <option value="3">3rd Year</option>
-                                    <option value="4">4th Year</option>
-                                </select>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label>Password *</label>
-                                    <input type="password" name="password1" class="form-control" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label>Confirm Password *</label>
-                                    <input type="password" name="password2" class="form-control" required>
-                                </div>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-success btn-lg w-100">Register</button>
-                        </form>
-                    </div>
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-                    <!-- MENTOR FORM -->
-                    <div id="mentor-form" style="display:none;">
-                        <form method="POST">
-                            {% csrf_token %}
-                            <input type="hidden" name="user_type" value="mentor">
-                            
-                            <div class="alert alert-success">
-                                <strong>Mentor Registration</strong>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label>Username *</label>
-                                    <input type="text" name="username" class="form-control" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label>Email *</label>
-                                    <input type="email" name="email" class="form-control" required>
-                                </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label>Job Title *</label>
-                                    <input type="text" name="job_title" class="form-control" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label>Company *</label>
-                                    <input type="text" name="company" class="form-control" required>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label>Years of Experience *</label>
-                                <input type="number" name="years_of_experience" class="form-control" required>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label>Password *</label>
-                                    <input type="password" name="password1" class="form-control" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label>Confirm Password *</label>
-                                    <input type="password" name="password2" class="form-control" required>
-                                </div>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-success btn-lg w-100">Register</button>
-                        </form>
-                    </div>
-
-                    <!-- FREELANCER FORM -->
-                    <div id="freelancer-form" style="display:none;">
-                        <form method="POST">
-                            {% csrf_token %}
-                            <input type="hidden" name="user_type" value="freelancer">
-                            
-                            <div class="alert alert-info">
-                                <strong>Freelancer Registration</strong>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label>Username *</label>
-                                    <input type="text" name="username" class="form-control" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label>Email *</label>
-                                    <input type="email" name="email" class="form-control" required>
-                                </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label>Specialization *</label>
-                                    <input type="text" name="job_title" class="form-control" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label>Years of Experience *</label>
-                                    <input type="number" name="years_of_experience" class="form-control" required>
-                                </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label>Password *</label>
-                                    <input type="password" name="password1" class="form-control" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label>Confirm Password *</label>
-                                    <input type="password" name="password2" class="form-control" required>
-                                </div>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-success btn-lg w-100">Register</button>
-                        </form>
-                    </div>
-
-                    <!-- ORGANIZATION FORM -->
-                    <div id="org-form" style="display:none;">
-                        <form method="POST">
-                            {% csrf_token %}
-                            <input type="hidden" name="user_type" value="organization">
-                            
-                            <div class="alert alert-warning">
-                                <strong>Organization Registration</strong>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label>Username *</label>
-                                    <input type="text" name="username" class="form-control" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label>Email *</label>
-                                    <input type="email" name="email" class="form-control" required>
-                                </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label>Organization Name *</label>
-                                    <input type="text" name="organization_name" class="form-control" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label>Type *</label>
-                                    <select name="organization_type" class="form-select" required>
-                                        <option value="">Select...</option>
-                                        <option value="NGO">NGO</option>
-                                        <option value="Startup">Startup</option>
-                                        <option value="Corporate">Corporate</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label>Password *</label>
-                                    <input type="password" name="password1" class="form-control" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label>Confirm Password *</label>
-                                    <input type="password" name="password2" class="form-control" required>
-                                </div>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-success btn-lg w-100">Register</button>
-                        </form>
+<div class="register-page position-relative overflow-hidden">
+    <div class="register-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+    
+    <div class="container py-5 position-relative">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-xl-9">
+                <div class="register-card" data-aos="zoom-in" data-aos-duration="800">
+                    <div class="register-header text-center p-5">
+                        <div class="icon-circle mb-4">
+                            <i class="bi bi-person-plus"></i>
+                        </div>
+                        <h2 class="fw-bold text-white mb-2">Join IndustryLink</h2>
+                        <p class="text-white-50 mb-0">Select your role to get started</p>
                     </div>
                     
-                    <hr class="mt-4">
-                    <p class="text-center">
-                        Already have an account? <a href="{% url 'main:login' %}">Login</a>
-                    </p>
+                    <div class="p-4 border-bottom">
+                        <div class="role-selector" data-aos="fade-down" data-aos-delay="200">
+                            <button class="role-btn active" onclick="showForm('student')" data-role="student">
+                                <div class="role-icon">
+                                    <i class="bi bi-mortarboard-fill"></i>
+                                </div>
+                                <div class="role-name">Student</div>
+                            </button>
+                            
+                            <button class="role-btn" onclick="showForm('mentor')" data-role="mentor">
+                                <div class="role-icon">
+                                    <i class="bi bi-person-workspace"></i>
+                                </div>
+                                <div class="role-name">Mentor</div>
+                            </button>
+                            
+                            <button class="role-btn" onclick="showForm('freelancer')" data-role="freelancer">
+                                <div class="role-icon">
+                                    <i class="bi bi-briefcase-fill"></i>
+                                </div>
+                                <div class="role-name">Freelancer</div>
+                            </button>
+                            
+                            <button class="role-btn" onclick="showForm('org')" data-role="org">
+                                <div class="role-icon">
+                                    <i class="bi bi-building-fill"></i>
+                                </div>
+                                <div class="role-name">Organization</div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="forms-container p-4 p-lg-5">
+                        
+                        {% if form.errors %}
+                        <div class="alert alert-danger mb-4" data-aos="fade-in">
+                            <strong><i class="bi bi-exclamation-triangle"></i> Please correct the errors below:</strong>
+                            <ul class="mb-0 mt-2">
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li>{{ field.label }}: {{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                            {% for error in form.non_field_errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                        <div id="student-form" class="registration-form active">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_type" value="student">
+                                
+                                <div class="form-badge mb-4" data-aos="fade-right">
+                                    <i class="bi bi-mortarboard-fill me-2"></i>
+                                    <strong>Student Registration</strong>
+                                </div>
+                                
+                                <div class="row g-3">
+                                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="50">
+                                        <label class="form-label fw-bold"><i class="bi bi-person"></i> First Name *</label>
+                                        <input type="text" name="first_name" class="form-control form-control-lg" required>
+                                    </div>
+                                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="75">
+                                        <label class="form-label fw-bold"><i class="bi bi-person"></i> Last Name *</label>
+                                        <input type="text" name="last_name" class="form-control form-control-lg" required>
+                                    </div>
+                                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                                        <label class="form-label fw-bold"><i class="bi bi-person-badge"></i> Username *</label>
+                                        <input type="text" name="username" class="form-control form-control-lg" required>
+                                    </div>
+                                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="150">
+                                        <label class="form-label fw-bold"><i class="bi bi-envelope"></i> Email *</label>
+                                        <input type="email" name="email" class="form-control form-control-lg" required>
+                                    </div>
+                                    
+                                    <div class="col-md-12" data-aos="fade-up" data-aos-delay="175">
+                                        <label class="form-label fw-bold"><i class="bi bi-telephone"></i> Phone Number *</label>
+                                        <input type="text" name="phone" class="form-control form-control-lg" placeholder="+254..." required>
+                                    </div>
+
+                                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+                                        <label class="form-label fw-bold"><i class="bi bi-building"></i> Institution *</label>
+                                        <input type="text" name="institution" class="form-control form-control-lg" placeholder="e.g., Strathmore University" required>
+                                    </div>
+                                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="250">
+                                        <label class="form-label fw-bold"><i class="bi bi-book"></i> Course *</label>
+                                        <input type="text" name="course" class="form-control form-control-lg" placeholder="e.g., Computer Science" required>
+                                    </div>
+                                    <div class="col-md-12" data-aos="fade-up" data-aos-delay="300">
+                                        <label class="form-label fw-bold"><i class="bi bi-calendar"></i> Year of Study *</label>
+                                        <select name="year_of_study" class="form-select form-select-lg" required>
+                                            <option value="">Select year...</option>
+                                            <option value="1">1st Year</option>
+                                            <option value="2">2nd Year</option>
+                                            <option value="3">3rd Year</option>
+                                            <option value="4">4th Year</option>
+                                            <option value="5">5th Year</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="350">
+                                        <label class="form-label fw-bold"><i class="bi bi-lock"></i> Password *</label>
+                                        <input type="password" name="password1" class="form-control form-control-lg" required>
+                                    </div>
+                                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
+                                        <label class="form-label fw-bold"><i class="bi bi-lock-fill"></i> Confirm Password *</label>
+                                        <input type="password" name="password2" class="form-control form-control-lg" required>
+                                    </div>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary btn-lg w-100 mt-4" data-aos="zoom-in" data-aos-delay="500">
+                                    <i class="bi bi-rocket-takeoff"></i> Create Account
+                                </button>
+                            </form>
+                        </div>
+
+                        <div id="mentor-form" class="registration-form">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_type" value="mentor">
+                                
+                                <div class="form-badge form-badge-success mb-4">
+                                    <i class="bi bi-person-workspace me-2"></i>
+                                    <strong>Mentor Registration</strong>
+                                </div>
+                                
+                                <div class="row g-3">
+                                    <div class="col-md-6"><label class="form-label fw-bold"><i class="bi bi-person"></i> First Name *</label><input type="text" name="first_name" class="form-control form-control-lg" required></div>
+                                    <div class="col-md-6"><label class="form-label fw-bold"><i class="bi bi-person"></i> Last Name *</label><input type="text" name="last_name" class="form-control form-control-lg" required></div>
+                                    <div class="col-md-6"><label class="form-label fw-bold"><i class="bi bi-person-badge"></i> Username *</label><input type="text" name="username" class="form-control form-control-lg" required></div>
+                                    <div class="col-md-6"><label class="form-label fw-bold"><i class="bi bi-envelope"></i> Email *</label><input type="email" name="email" class="form-control form-control-lg" required></div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold"><i class="bi bi-telephone"></i> Phone Number *</label>
+                                        <input type="text" name="phone" class="form-control form-control-lg" placeholder="+254..." required>
+                                    </div>
+
+                                    <div class="col-md-6"><label class="form-label fw-bold"><i class="bi bi-briefcase"></i> Job Title *</label><input type="text" name="job_title" class="form-control form-control-lg" required></div>
+                                    <div class="col-md-6"><label class="form-label fw-bold"><i class="bi bi-building"></i> Company *</label><input type="text" name="company" class="form-control form-control-lg" required></div>
+                                    
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold"><i class="bi bi-linkedin"></i> LinkedIn *</label>
+                                        <input type="text" name="linkedin" class="form-control form-control-lg" placeholder="https://www.linkedin.com/in/..." required>
+                                    </div>
+
+                                    <div class="col-md-12"><label class="form-label fw-bold"><i class="bi bi-star"></i> Years of Experience *</label><input type="number" name="years_of_experience" class="form-control form-control-lg" min="0" required></div>
+                                    
+                                    <div class="col-md-6"><label class="form-label fw-bold"><i class="bi bi-lock"></i> Password *</label><input type="password" name="password1" class="form-control form-control-lg" required></div>
+                                    <div class="col-md-6"><label class="form-label fw-bold"><i class="bi bi-lock-fill"></i> Confirm Password *</label><input type="password" name="password2" class="form-control form-control-lg" required></div>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-success btn-lg w-100 mt-4">
+                                    <i class="bi bi-check-circle"></i> Create Mentor Account
+                                </button>
+                            </form>
+                        </div>
+
+                        <div id="freelancer-form" class="registration-form">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_type" value="freelancer">
+                                
+                                <div class="form-badge form-badge-info mb-4">
+                                    <i class="bi bi-briefcase-fill me-2"></i>
+                                    <strong>Freelancer Registration</strong>
+                                </div>
+                                
+                                <div class="row g-3">
+                                    <div class="col-md-6"><label class="form-label fw-bold"><i class="bi bi-person"></i> First Name *</label><input type="text" name="first_name" class="form-control form-control-lg" required></div>
+                                    <div class="col-md-6"><label class="form-label fw-bold"><i class="bi bi-person"></i> Last Name *</label><input type="text" name="last_name" class="form-control form-control-lg" required></div>
+                                    <div class="col-md-6"><label class="form-label fw-bold"><i class="bi bi-person-badge"></i> Username *</label><input type="text" name="username" class="form-control form-control-lg" required></div>
+                                    <div class="col-md-6"><label class="form-label fw-bold"><i class="bi bi-envelope"></i> Email *</label><input type="email" name="email" class="form-control form-control-lg" required></div>
+                                    
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold"><i class="bi bi-telephone"></i> Phone Number *</label>
+                                        <input type="text" name="phone" class="form-control form-control-lg" placeholder="+254..." required>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold"><i class="bi bi-tools"></i> Profession *</label>
+                                        <input type="text" name="profession" class="form-control form-control-lg" placeholder="e.g. Web Developer" required>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold"><i class="bi bi-award"></i> Specialization *</label>
+                                        <input type="text" name="specialization" class="form-control form-control-lg" placeholder="e.g., Python/Django" required>
+                                    </div>
+                                    
+                                    <div class="col-md-6"><label class="form-label fw-bold"><i class="bi bi-star"></i> Years of Experience *</label><input type="number" name="years_of_experience" class="form-control form-control-lg" min="0" required></div>
+                                    <div class="col-md-6"><label class="form-label fw-bold"><i class="bi bi-lock"></i> Password *</label><input type="password" name="password1" class="form-control form-control-lg" required></div>
+                                    <div class="col-md-6"><label class="form-label fw-bold"><i class="bi bi-lock-fill"></i> Confirm Password *</label><input type="password" name="password2" class="form-control form-control-lg" required></div>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-info btn-lg w-100 mt-4">
+                                    <i class="bi bi-check-circle"></i> Create Freelancer Account
+                                </button>
+                            </form>
+                        </div>
+
+                        <div id="org-form" class="registration-form">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_type" value="organization">
+                                
+                                <div class="form-badge form-badge-warning mb-4">
+                                    <i class="bi bi-building-fill me-2"></i>
+                                    <strong>Organization Registration</strong>
+                                </div>
+                                
+                                <div class="row g-3">
+                                    <div class="col-md-6"><label class="form-label fw-bold"><i class="bi bi-person"></i> Admin First Name *</label><input type="text" name="first_name" class="form-control form-control-lg" required></div>
+                                    <div class="col-md-6"><label class="form-label fw-bold"><i class="bi bi-person"></i> Admin Last Name *</label><input type="text" name="last_name" class="form-control form-control-lg" required></div>
+                                    <div class="col-md-6"><label class="form-label fw-bold"><i class="bi bi-person-badge"></i> Admin Username *</label><input type="text" name="username" class="form-control form-control-lg" required></div>
+                                    <div class="col-md-6"><label class="form-label fw-bold"><i class="bi bi-envelope"></i> Admin Email *</label><input type="email" name="email" class="form-control form-control-lg" required></div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold"><i class="bi bi-building"></i> Organization Name *</label>
+                                        <input type="text" name="organization_name" class="form-control form-control-lg" required>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold"><i class="bi bi-tag"></i> Organization Type *</label>
+                                        <select name="organization_type" class="form-select form-select-lg" required>
+                                            <option value="">Select type...</option>
+                                            <option value="NGO">NGO</option>
+                                            <option value="Startup">Startup</option>
+                                            <option value="Corporate">Corporate</option>
+                                            <option value="Government">Government</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold"><i class="bi bi-building"></i> Industry *</label>
+                                        <input type="text" name="industry" class="form-control form-control-lg" placeholder="e.g., Agriculture" required>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold"><i class="bi bi-globe"></i> Website *</label>
+                                        <input type="text" name="website" class="form-control form-control-lg" placeholder="e.g., www.example.com" required>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold"><i class="bi bi-telephone"></i> Phone *</label>
+                                        <input type="text" name="phone" class="form-control form-control-lg" placeholder="e.g., 0700222555" required>
+                                    </div>
+
+                                    <div class="col-md-6"><label class="form-label fw-bold"><i class="bi bi-lock"></i> Password *</label><input type="password" name="password1" class="form-control form-control-lg" required></div>
+                                    <div class="col-md-6"><label class="form-label fw-bold"><i class="bi bi-lock-fill"></i> Confirm Password *</label><input type="password" name="password2" class="form-control form-control-lg" required></div>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-warning btn-lg w-100 mt-4">
+                                    <i class="bi bi-check-circle"></i> Create Organization Account
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="register-footer text-center p-4 border-top">
+                        <p class="text-muted mb-0">
+                            Already have an account? 
+                            <a href="{% url 'main:login' %}" class="text-primary fw-bold">Login here</a>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<style>
+.register-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 50px 0;
+}
+
+.register-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.register-shapes .shape {
+    position: absolute;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+}
+
+.register-shapes .shape-1 {
+    width: 300px;
+    height: 300px;
+    top: 10%;
+    left: 5%;
+    animation: float 20s ease-in-out infinite;
+}
+
+.register-shapes .shape-2 {
+    width: 200px;
+    height: 200px;
+    top: 60%;
+    right: 10%;
+    animation: float 25s ease-in-out infinite reverse;
+}
+
+.register-shapes .shape-3 {
+    width: 250px;
+    height: 250px;
+    bottom: 10%;
+    left: 50%;
+    animation: float 30s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(30px, -30px); }
+}
+
+.register-card {
+    background: white;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.register-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.icon-circle {
+    width: 100px;
+    height: 100px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: white;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.role-selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.role-btn {
+    background: white;
+    border: 3px solid #e2e8f0;
+    border-radius: 15px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.role-btn:hover {
+    transform: translateY(-5px);
+    border-color: #667eea;
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+}
+
+.role-btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-color: #667eea;
+    color: white;
+}
+
+.role-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.role-btn.active .role-icon,
+.role-btn.active .role-name {
+    color: white;
+}
+
+.role-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.registration-form {
+    display: none;
+    animation: fadeIn 0.4s ease-in;
+}
+
+.registration-form.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.form-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+}
+
+.form-badge-success {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.form-badge-info {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.form-badge-warning {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.form-control, .form-select {
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 18px;
+    transition: all 0.3s;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-label {
+    color: #2d3748;
+    margin-bottom: 8px;
+}
+
+.btn {
+    border-radius: 12px;
+    padding: 14px 24px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+@media (max-width: 768px) {
+    .role-selector {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .icon-circle {
+        width: 80px;
+        height: 80px;
+        font-size: 2.5rem;
+    }
+}
+</style>
+
 <script>
+AOS.init({
+    duration: 800,
+    once: true
+});
+
 function showForm(type) {
-    document.getElementById('student-form').style.display = 'none';
-    document.getElementById('mentor-form').style.display = 'none';
-    document.getElementById('freelancer-form').style.display = 'none';
-    document.getElementById('org-form').style.display = 'none';
-    document.getElementById(type + '-form').style.display = 'block';
+    document.querySelectorAll('.registration-form').forEach(form => {
+        form.classList.remove('active');
+    });
+    
+    document.getElementById(type + '-form').classList.add('active');
+    
+    document.querySelectorAll('.role-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    event.target.closest('.role-btn').classList.add('active');
+    
+    AOS.refresh();
 }
 </script>
 {% endblock %}

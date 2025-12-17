@@ -1,192 +1,131 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}{% if add_mode %}Add Project{% else %}Projects{% endif %} - IndustryLink{% endblock %}
+{% block title %}Explore Projects - IndustryLink{% endblock %}
 
 {% block content %}
 
-{% if add_mode %}
+<style>
+    body { background-color: #f9fafb; }
+    .project-header {
+        background: linear-gradient(120deg, #6366f1 0%, #a855f7 100%);
+        padding: 60px 0;
+        border-radius: 0 0 30px 30px;
+        margin-bottom: 40px;
+    }
+    .glass-card {
+        background: white;
+        border: 1px solid rgba(229, 231, 235, 0.5);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        border-radius: 16px;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+    .glass-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+    .badge-subtle {
+        background-color: #f3f4f6;
+        color: #4b5563;
+        border: 1px solid #e5e7eb;
+        font-weight: 500;
+        padding: 5px 12px;
+        border-radius: 20px;
+    }
+    .owner-avatar {
+        width: 35px;
+        height: 35px;
+        background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+        color: #4338ca;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+</style>
 
-    
-    <div class="container mt-5 mb-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card shadow-lg border-0">
-                    <div class="card-header bg-success text-white text-center py-4">
-                        <h3 class="mb-0">
-                            <i class="bi bi-plus-circle"></i> Add New Project
-                        </h3>
-                        <p class="mb-0 mt-2">Showcase your work to potential employers!</p>
-                    </div>
-                    <div class="card-body p-4">
-                        <form method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            
-                            {% for field in form %}
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">
-                                    {% if field.name == 'title' %}<i class="bi bi-card-heading"></i>
-                                    {% elif field.name == 'description' %}<i class="bi bi-card-text"></i>
-                                    {% elif field.name == 'skills_used' %}<i class="bi bi-tools"></i>
-                                    {% elif field.name == 'github_link' %}<i class="bi bi-github"></i>
-                                    {% elif field.name == 'status' %}<i class="bi bi-flag"></i>
-                                    {% elif field.name == 'start_date' %}<i class="bi bi-calendar-check"></i>
-                                    {% elif field.name == 'end_date' %}<i class="bi bi-calendar-x"></i>
-                                    {% endif %}
-                                    {{ field.label }}
-                                </label>
-                                {{ field }}
-                                {% if field.errors %}
-                                    <div class="text-danger small mt-1">{{ field.errors }}</div>
-                                {% endif %}
-                            </div>
-                            {% endfor %}
-                            
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-success btn-lg">
-                                    <i class="bi bi-check-circle"></i> Add Project
-                                </button>
-                                <a href="{% url 'main:dashboard' %}" class="btn btn-outline-secondary">
-                                    <i class="bi bi-x-circle"></i> Cancel
-                                </a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-{% else %}
-    
-    <!-- Hero Section for Projects Page -->
-    <div class="bg-primary text-white py-5 mb-4">
-        <div class="container text-center">
-            <h1 class="display-4 fw-bold">
-                <i class="bi bi-folder-fill"></i> Student Projects
-            </h1>
-            <p class="lead">Discover amazing projects built by talented students</p>
-        </div>
-    </div>
-
-    <div class="container mb-5">
-        {% if projects %}
-            <div class="row g-4">
-                {% for project in projects %}
-                {% for project in projects %}
-                <div class="col-md-4 mb-4">
-                <div class="card h-100">
-       
+<div class="project-header text-center text-white shadow-sm">
+    <div class="container">
+        <h1 class="fw-bold mb-2">Discover Innovation</h1>
+        <p class="lead opacity-75">Browse projects from students, freelancers, and organizations</p>
         
-                    <div class="card-footer">
-                    {% if project.github_link %}
-                        <a href="{{ project.github_link }}" target="_blank" class="btn btn-sm btn-dark">GitHub</a>
-                    {% endif %}
-           
-                    {% if is_mentor and project.status != 'completed' %}
-                        <a href="{% url 'main:review_project' project.id %}" class="btn btn-sm btn-warning">
-                            <i class="bi bi-eye"></i> Review
-                        </a>
-                        <a href="{% url 'main:mark_complete' project.id %}" class="btn btn-sm btn-success" 
-                         onclick="return confirm('Mark this project as completed?')">
-                            <i class="bi bi-check-circle"></i> Mark Complete
-                        </a>
-                    {% endif %}
-                    </div>
-                </div>
-                </div>
-                    {% endfor %}
-
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm border-0 project-card">
-                        <!-- Project Image or Placeholder -->
-                        {% if project.image %}
-                            <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}" style="height: 200px; object-fit: cover;">
-                        {% else %}
-                            <!-- 🖼️ IMAGE PLACEHOLDER: Replace this with actual project thumbnails -->
-                            <!-- Suggested image: Technology/coding themed background -->
-                            <div class="bg-gradient text-white d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                                <i class="bi bi-laptop" style="font-size: 4rem;"></i>
-                            </div>
-                        {% endif %}
-                        
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">
-                                <i class="bi bi-folder-fill text-primary"></i> {{ project.title }}
-                            </h5>
-                            <p class="card-text text-muted">{{ project.description|truncatewords:15 }}</p>
-                            
-                            <div class="mb-2">
-                                <small class="text-muted">
-                                    <i class="bi bi-person"></i> <strong>By:</strong> {{ project.student.user.username }}
-                                </small>
-                            </div>
-                            
-                            <div class="mb-2">
-                                <small class="text-muted">
-                                    <i class="bi bi-tools"></i> <strong>Tech:</strong> {{ project.skills_used }}
-                                </small>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <span class="badge bg-{{ project.status|lower }} text-white">
-                                    {% if project.status == 'ongoing' %}
-                                        <i class="bi bi-arrow-repeat"></i>
-                                    {% elif project.status == 'completed' %}
-                                        <i class="bi bi-check-circle"></i>
-                                    {% else %}
-                                        <i class="bi bi-pause-circle"></i>
-                                    {% endif %}
-                                    {{ project.status|upper }}
-                                </span>
-                            </div>
-                        </div>
-                        
-                        <div class="card-footer bg-white border-0">
-                            {% if project.github_link %}
-                                <a href="{{ project.github_link }}" target="_blank" class="btn btn-sm btn-dark w-100">
-                                    <i class="bi bi-github"></i> View on GitHub
-                                </a>
-                            {% else %}
-                                <button class="btn btn-sm btn-outline-secondary w-100" disabled>
-                                    <i class="bi bi-github"></i> No GitHub Link
-                                </button>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        {% else %}
-         
-            <div class="text-center py-5">
-                <i class="bi bi-folder-x text-muted" style="font-size: 5rem;"></i>
-                <h3 class="mt-4 text-muted">No Projects Yet</h3>
-                <p class="text-muted">Be the first to showcase your work!</p>
-                {% if request.user.is_authenticated %}
-                    <a href="{% url 'main:add_project' %}" class="btn btn-primary btn-lg mt-3">
-                        <i class="bi bi-plus-circle"></i> Add Your First Project
-                    </a>
-                {% else %}
-                    <a href="{% url 'main:register' %}" class="btn btn-primary btn-lg mt-3">
-                        <i class="bi bi-person-plus"></i> Register to Add Projects
-                    </a>
-                {% endif %}
-            </div>
+        {% if user.is_authenticated %}
+        <a href="{% url 'main:add_project' %}" class="btn btn-light rounded-pill px-4 mt-3 fw-bold shadow-sm">
+            <i class="bi bi-plus-lg"></i> Post a Project
+        </a>
         {% endif %}
     </div>
+</div>
 
-    <style>
-        .project-card {
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
-        }
-        .bg-ongoing { background-color: #0dcaf0 !important; }
-        .bg-completed { background-color: #198754 !important; }
-        .bg-paused { background-color: #ffc107 !important; color: #000 !important; }
-    </style>
-{% endif %}
+<div class="container mb-5">
+    <div class="row g-4">
+        {% for project in projects %}
+        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+            <div class="glass-card p-4 d-flex flex-column">
+                
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <small class="text-muted"><i class="bi bi-clock"></i> {{ project.created_at|date:"M d, Y" }}</small>
+                    <span class="badge {% if project.status == 'ongoing' %}bg-info bg-opacity-10 text-info{% elif project.status == 'completed' %}bg-success bg-opacity-10 text-success{% else %}bg-warning bg-opacity-10 text-warning{% endif %} rounded-pill px-3">
+                        {{ project.get_status_display }}
+                    </span>
+                </div>
 
+                <h5 class="fw-bold mb-2 text-dark">{{ project.title }}</h5>
+                
+                <p class="text-secondary small flex-grow-1" style="line-height: 1.6;">
+                    {{ project.description|truncatewords:25 }}
+                </p>
+
+                <div class="mb-4">
+                    {% for skill in project.skills_used.split|slice:":3" %}
+                        <span class="badge badge-subtle small me-1 mb-1">{{ skill }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                    <div class="d-flex align-items-center">
+                        <div class="owner-avatar me-2">
+                            {% if project.student %}
+                                {{ project.student.user.username|slice:":1"|upper }}
+                            {% elif project.freelancer %}
+                                {{ project.freelancer.user.username|slice:":1"|upper }}
+                            {% elif project.organization %}
+                                {{ project.organization.organization_name|slice:":1"|upper }}
+                            {% else %}
+                                A
+                            {% endif %}
+                        </div>
+                        <small class="text-muted fw-bold">
+                            {% if project.student %}
+                                {{ project.student.user.username }}
+                            {% elif project.freelancer %}
+                                {{ project.freelancer.user.username }}
+                            {% elif project.organization %}
+                                {{ project.organization.organization_name }}
+                            {% else %}
+                                Admin
+                            {% endif %}
+                        </small>
+                    </div>
+                    
+                    <a href="{% url 'main:view_project' project.id %}" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                        View <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <div class="text-muted mb-3">
+                <i class="bi bi-folder2-open display-1 opacity-25"></i>
+            </div>
+            <h4>No projects yet</h4>
+            <p class="text-muted">Be the first to showcase your work!</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

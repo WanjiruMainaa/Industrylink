@@ -77,9 +77,9 @@
                                    id="amount"
                                    class="form-control form-control-lg" 
                                    placeholder="Enter amount"
-                                   min="10"
+                                   min="100"
                                    required>
-                            <small class="text-muted">Minimum amount: KES 10</small>
+                            <small class="text-muted">Minimum amount: KES 100</small>
                         </div>
                         
                         <!-- Phone Number -->
@@ -145,7 +145,7 @@
                             <h6 class="mb-0">Mentor Sessions</h6>
                             <small class="text-muted">Per hour</small>
                         </div>
-                        <h5 class="mb-0 text-success">KES 2,000</h5>
+                        <h5 class="mb-0 text-success">KES 1,000+</h5>
                     </div>
                     
                     <div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-light rounded">
@@ -191,7 +191,7 @@
         const summaryType = document.getElementById('summaryType');
         const summaryAmount = document.getElementById('summaryAmount');
         
-        // Show/hide sections based on payment type
+        // Shows/hides sections based on payment type
         paymentType.addEventListener('change', function() {
             mentorSelection.style.display = 'none';
             studentSelection.style.display = 'none';
@@ -214,7 +214,7 @@
             summaryAmount.textContent = amountInput.value;
         });
         
-        // Update summary when amount changes
+        // Updates summary when amount changes.
         amountInput.addEventListener('input', function() {
             summaryAmount.textContent = this.value || '0';
         });

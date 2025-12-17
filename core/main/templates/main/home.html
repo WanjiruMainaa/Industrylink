@@ -1,368 +1,359 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
 {% block title %}Home - IndustryLink{% endblock %}
 
 {% block content %}
 
-<!-- Hero Section with BACKGROUND IMAGE -->
-<!-- 🖼️ BACKGROUND IMAGE: Add a hero image here -->
-<!-- Suggested image: Students working together, modern workspace, technology background -->
+<!-- AOS Animation Library -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-<div class="hero" style="background: linear-gradient(rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9)), url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920') center/cover;">
-    <div class="container text-center">
-        <h1 class="display-3 fw-bold animate-fade-in">IndustryLink</h1>
-        <p class="tagline animate-fade-in-delay">Bridging Academia and Industry</p>
-        <p class="hero-description mx-auto animate-fade-in-delay-2" style="max-width: 700px;">
-            Connect with real-world projects, find mentors in your field, and build the skills 
-            employers actually want. Your journey from student to professional starts here.
-        </p>
-        <div class="mt-4 animate-fade-in-delay-3">
-            {% if request.user.is_authenticated %}
-                <a href="{% url 'main:dashboard' %}" class="btn btn-light btn-lg px-5 me-3">
-                    <i class="bi bi-speedometer2"></i> Go to Dashboard
-                </a>
-                <a href="{% url 'main:projects' %}" class="btn btn-outline-light btn-lg px-5">
-                    <i class="bi bi-folder"></i> Browse Projects
-                </a>
-            {% else %}
-                <a href="{% url 'main:register' %}" class="btn btn-light btn-lg px-5 me-3">
-                    <i class="bi bi-person-plus"></i> Get Started
-                </a>
-                <a href="{% url 'main:login' %}" class="btn btn-outline-light btn-lg px-5">
-                    <i class="bi bi-box-arrow-in-right"></i> Login
-                </a>
-            {% endif %}
-        </div>
+<!-- Hero Section with Animated Background -->
+<div class="hero-section position-relative overflow-hidden">
+    <!-- Animated Floating Shapes -->
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
     </div>
-</div>
-
-<!-- What is IndustryLink Section -->
-<div class="container my-5">
-    <div class="row mb-5">
-        <div class="col-md-12 text-center fade-in-on-scroll">
-            <h2 class="display-5 fw-bold mb-3">What is IndustryLink?</h2>
-            <p class="lead text-muted">A platform designed to close the gap between what you learn in class and what employers need</p>
+    
+    <div class="container position-relative py-5" style="min-height: 90vh; display: flex; align-items: center;">
+        <div class="row align-items-center w-100">
+            <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1000">
+                <h1 class="display-2 fw-bold text-white mb-4">
+                    Industry<span class="gradient-text">Link</span>
+                </h1>
+                <p class="lead text-white mb-2" data-aos="fade-right" data-aos-delay="200">
+                    Bridging Academia and Industry
+                </p>
+                <p class="text-white-50 mb-4 fs-5" data-aos="fade-right" data-aos-delay="400">
+                    Connect with real-world projects, find mentors in your field, and build the skills 
+                    employers actually want. Your journey from student to professional starts here.
+                </p>
+                <div class="d-flex gap-3 flex-wrap" data-aos="fade-up" data-aos-delay="600">
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'main:dashboard' %}" class="btn btn-light btn-lg px-5 py-3 hover-lift">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                        <a href="{% url 'main:projects' %}" class="btn btn-outline-light btn-lg px-5 py-3 hover-lift">
+                            <i class="bi bi-folder"></i> Projects
+                        </a>
+                    {% else %}
+                        <a href="{% url 'main:register' %}" class="btn btn-light btn-lg px-5 py-3 hover-lift">
+                            <i class="bi bi-rocket-takeoff"></i> Get Started
+                        </a>
+                        <a href="{% url 'main:login' %}" class="btn btn-outline-light btn-lg px-5 py-3 hover-lift">
+                            <i class="bi bi-box-arrow-in-right"></i> Login
+                        </a>
+                    {% endif %}
+                </div>
+                
+                <!-- Stats -->
+                <div class="row mt-5 g-4">
+                    <div class="col-4" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="stat-card">
+                            <h2 class="text-white fw-bold mb-0 counter">500</h2>
+                            <p class="text-white-50 mb-0">Students</p>
+                        </div>
+                    </div>
+                    <div class="col-4" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="stat-card">
+                            <h2 class="text-white fw-bold mb-0 counter">100</h2>
+                            <p class="text-white-50 mb-0">Projects</p>
+                        </div>
+                    </div>
+                    <div class="col-4" data-aos="zoom-in" data-aos-delay="300">
+                        <div class="stat-card">
+                            <h2 class="text-white fw-bold mb-0 counter">50</h2>
+                            <p class="text-white-50 mb-0">Mentors</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 text-center d-none d-lg-block" data-aos="fade-left" data-aos-duration="1000">
+                <div class="hero-illustration">
+                    <i class="bi bi-laptop display-1 text-white pulse-animation" style="font-size: 15rem;"></i>
+                   
+                </div>
+            </div>
         </div>
     </div>
     
-    <!-- Feature Cards -->
-    <div class="row g-4">
-        <!-- Projects Feature -->
-        <div class="col-md-4 fade-in-on-scroll">
-            <div class="card h-100 shadow-sm border-0 feature-card">
-                <div class="card-body text-center p-4">
-                    <div class="mb-3">
-                        <i class="bi bi-folder-fill text-primary" style="font-size: 3rem;"></i>
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator" data-aos="fade-down" data-aos-delay="1000">
+        <i class="bi bi-chevron-down"></i>
+    </div>
+</div>
+
+<!-- What is IndustryLink -->
+<section class="py-5 bg-light">
+    <div class="container py-5">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-4 fw-bold mb-3">What is IndustryLink?</h2>
+            <p class="lead text-muted">A platform designed to close the gap between what you learn in class and what employers need</p>
+        </div>
+        
+        <div class="row g-4">
+            <!-- Feature 1 -->
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-card h-100 p-4">
+                    <div class="feature-icon mb-4">
+                        <i class="bi bi-folder-fill"></i>
                     </div>
-                    <h5 class="card-title fw-bold">Campus-to-Career Portal</h5>
-                    <p class="card-text text-muted">
+                    <h4 class="fw-bold mb-3">Campus-to-Career Portal</h4>
+                    <p class="text-muted mb-4">
                         Showcase your projects to potential employers, NGOs, and freelancers. 
                         Get discovered based on your actual skills and work, not just grades.
                     </p>
-                    <a href="{% url 'main:projects' %}" class="btn btn-outline-primary">
+                    <a href="{% url 'main:projects' %}" class="btn btn-outline-primary hover-lift">
                         View Projects <i class="bi bi-arrow-right"></i>
                     </a>
                 </div>
             </div>
-        </div>
-        
-        <!-- Mentorship Feature -->
-         
-        <div class="col-md-4 fade-in-on-scroll">
-            <div class="card h-100 shadow-sm border-0 feature-card">
-                <div class="card-body text-center p-4">
-                    <div class="mb-3">
-                        <i class="bi bi-people-fill text-success" style="font-size: 3rem;"></i>
+            
+            <!-- Feature 2 -->
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-card h-100 p-4">
+                    <div class="feature-icon feature-icon-success mb-4">
+                        <i class="bi bi-people-fill"></i>
                     </div>
-                    <h5 class="card-title fw-bold">Mentorship Map</h5>
-                    <p class="card-text text-muted">
+                    <h4 class="fw-bold mb-3">Mentorship Map</h4>
+                    <p class="text-muted mb-4">
                         Connect with experienced professionals in your field. Get personalized 
                         guidance on career paths, skill development, and breaking into the industry.
                     </p>
-                    <a href="{% url 'main:mentor' %}" class="btn btn-outline-success">
+                    <a href="{% url 'main:mentor' %}" class="btn btn-outline-success hover-lift">
                         Find Mentors <i class="bi bi-arrow-right"></i>
                     </a>
                 </div>
             </div>
-        </div>
-        
-        <!-- Skill Gap Feature -->
-        <div class="col-md-4 fade-in-on-scroll">
-            <div class="card h-100 shadow-sm border-0 feature-card">
-                <div class="card-body text-center p-4">
-                    <div class="mb-3">
-                        <i class="bi bi-graph-up-arrow text-danger" style="font-size: 3rem;"></i>
+            
+            <!-- Feature 3 -->
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="feature-card h-100 p-4">
+                    <div class="feature-icon feature-icon-danger mb-4">
+                        <i class="bi bi-graph-up-arrow"></i>
                     </div>
-                    <h5 class="card-title fw-bold">Skill Gap Analyzer</h5>
-                    <p class="card-text text-muted">
+                    <h4 class="fw-bold mb-3">Skill Gap Analyzer</h4>
+                    <p class="text-muted mb-4">
                         Discover exactly what skills you need for your dream job. Get a personalized 
                         learning roadmap with free resources to bridge the gap.
                     </p>
-                    <a href="{% url 'main:skills' %}" class="btn btn-outline-danger">
+                    <a href="{% url 'main:skills' %}" class="btn btn-outline-danger hover-lift">
                         Analyze Skills <i class="bi bi-arrow-right"></i>
                     </a>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<!-- Sample Projects Preview Section -->
-<!-- 🖼️ PROJECT IMAGES: Sample project cards will show here -->
-<div class="bg-light py-5 my-5">
-    <div class="container">
-        <div class="row mb-4 fade-in-on-scroll">
-            <div class="col-12 text-center">
-                <h2 class="display-5 fw-bold">Featured Projects</h2>
-                <p class="lead text-muted">Check out what our talented students are building</p>
-            </div>
+<!-- Featured Projects -->
+<section class="py-5">
+    <div class="container py-5">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-4 fw-bold mb-3">Featured Projects</h2>
+            <p class="lead text-muted">Check out what our talented students are building</p>
         </div>
+        
         <div class="row g-4">
-            <!-- You can loop through 3 recent projects here or show static examples -->
-            <div class="col-md-4 fade-in-on-scroll">
-                <div class="card shadow-sm border-0">
-                    <!-- 🖼️ PROJECT THUMBNAIL: Add project image here -->
-                    <div class="bg-gradient text-white d-flex align-items-center justify-content-center" 
-                         style="height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                        <i class="bi bi-laptop" style="font-size: 4rem;"></i>
+            <!-- Project Card 1 -->
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+                <div class="project-preview-card">
+                    <div class="project-preview-image">
+                        <div class="project-placeholder gradient-1">
+                            <i class="bi bi-laptop"></i>
+                        </div>
+                        
+                        <div class="project-status">
+                            <span class="badge bg-success">Completed</span>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <h5 class="card-title">E-Commerce Platform</h5>
-                        <p class="card-text text-muted">A full-stack online shopping platform built with Django and React</p>
-                        <span class="badge bg-success">Completed</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 fade-in-on-scroll">
-                <div class="card shadow-sm border-0">
-                    <div class="bg-gradient text-white d-flex align-items-center justify-content-center" 
-                         style="height: 200px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                        <i class="bi bi-phone" style="font-size: 4rem;"></i>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Mobile Banking App</h5>
-                        <p class="card-text text-muted">Secure mobile banking solution with M-Pesa integration</p>
-                        <span class="badge bg-info">Ongoing</span>
+                    <div class="project-preview-body p-4">
+                        <h5 class="fw-bold mb-2">E-Commerce Platform</h5>
+                        <p class="text-muted small mb-3">A full-stack online shopping platform built with Django and React</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                <i class="bi bi-person-circle"></i> John Doe
+                            </small>
+                            <span class="badge bg-primary">Django</span>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 fade-in-on-scroll">
-                <div class="card shadow-sm border-0">
-                    <div class="bg-gradient text-white d-flex align-items-center justify-content-center" 
-                         style="height: 200px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-                        <i class="bi bi-bar-chart" style="font-size: 4rem;"></i>
+            
+            <!-- Project Card 2 -->
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+                <div class="project-preview-card">
+                    <div class="project-preview-image">
+                        <div class="project-placeholder gradient-2">
+                            <i class="bi bi-phone"></i>
+                        </div>
+                        <div class="project-status">
+                            <span class="badge bg-info">Ongoing</span>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Data Analytics Dashboard</h5>
-                        <p class="card-text text-muted">Real-time data visualization for business insights</p>
-                        <span class="badge bg-success">Completed</span>
+                    <div class="project-preview-body p-4">
+                        <h5 class="fw-bold mb-2">Mobile Banking App</h5>
+                        <p class="text-muted small mb-3">Secure mobile banking solution with M-Pesa integration</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                <i class="bi bi-person-circle"></i> Jane Smith
+                            </small>
+                            <span class="badge bg-success">Flutter</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Project Card 3 -->
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
+                <div class="project-preview-card">
+                    <div class="project-preview-image">
+                        <div class="project-placeholder gradient-3">
+                            <i class="bi bi-bar-chart"></i>
+                        </div>
+                        <div class="project-status">
+                            <span class="badge bg-success">Completed</span>
+                        </div>
+                    </div>
+                    <div class="project-preview-body p-4">
+                        <h5 class="fw-bold mb-2">Data Analytics Dashboard</h5>
+                        <p class="text-muted small mb-3">Real-time data visualization for business insights</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                <i class="bi bi-person-circle"></i> Mike Chen
+                            </small>
+                            <span class="badge bg-warning">Python</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="text-center mt-4 fade-in-on-scroll">
-            <a href="{% url 'main:projects' %}" class="btn btn-primary btn-lg">
+        
+        <div class="text-center mt-5" data-aos="fade-up">
+            <a href="{% url 'main:projects' %}" class="btn btn-primary btn-lg px-5 hover-lift">
                 View All Projects <i class="bi bi-arrow-right"></i>
             </a>
         </div>
     </div>
-</div>
+</section>
 
-<!-- Sample Mentors Preview Section -->
-<div class="container my-5">
-    <div class="row mb-4 fade-in-on-scroll">
-        <div class="col-12 text-center">
-            <h2 class="display-5 fw-bold">Meet Our Mentors</h2>
-            <p class="lead text-muted">Learn from experienced professionals in your field</p>
+<!-- How It Works -->
+<section class="py-5 bg-light">
+    <div class="container py-5">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-4 fw-bold mb-3">How It Works</h2>
+            <p class="lead text-muted">Get started in just 4 simple steps</p>
         </div>
-    </div>
-    <div class="row g-4">
-        <!-- Static mentor examples -->
-        <div class="col-md-3 fade-in-on-scroll">
-            <div class="card shadow-sm border-0 text-center">
-                <div class="card-body">
-                    <!-- 🖼️ MENTOR AVATAR: Use https://ui-avatars.com or actual photos -->
-                    <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" 
-                         style="width: 100px; height: 100px; font-size: 2.5rem;">
-                        JD
-                    </div>
-                    <h6 class="fw-bold">John Doe</h6>
-                    <p class="text-muted small mb-2">Senior Software Engineer</p>
-                    <span class="badge bg-primary">Technology</span>
+        
+        <div class="row g-4">
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="step-card text-center">
+                    <div class="step-number mb-4">1</div>
+                    <h5 class="fw-bold mb-3">Sign Up</h5>
+                    <p class="text-muted">Create your free account in under 2 minutes</p>
                 </div>
             </div>
-        </div>
-        <div class="col-md-3 fade-in-on-scroll">
-            <div class="card shadow-sm border-0 text-center">
-                <div class="card-body">
-                    <div class="rounded-circle bg-success text-white d-inline-flex align-items-center justify-content-center mb-3" 
-                         style="width: 100px; height: 100px; font-size: 2.5rem;">
-                        SK
-                    </div>
-                    <h6 class="fw-bold">Sarah Kimani</h6>
-                    <p class="text-muted small mb-2">UX Designer</p>
-                    <span class="badge bg-success">Design</span>
+            
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+                <div class="step-card text-center">
+                    <div class="step-number mb-4">2</div>
+                    <h5 class="fw-bold mb-3">Build Profile</h5>
+                    <p class="text-muted">Add your projects, skills, and career interests</p>
                 </div>
             </div>
-        </div>
-        <div class="col-md-3 fade-in-on-scroll">
-            <div class="card shadow-sm border-0 text-center">
-                <div class="card-body">
-                    <div class="rounded-circle bg-warning text-white d-inline-flex align-items-center justify-content-center mb-3" 
-                         style="width: 100px; height: 100px; font-size: 2.5rem;">
-                        MO
-                    </div>
-                    <h6 class="fw-bold">Michael Ochieng</h6>
-                    <p class="text-muted small mb-2">Business Analyst</p>
-                    <span class="badge bg-warning text-dark">Business</span>
+            
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+                <div class="step-card text-center">
+                    <div class="step-number mb-4">3</div>
+                    <h5 class="fw-bold mb-3">Connect</h5>
+                    <p class="text-muted">Find mentors and collaborate with peers</p>
                 </div>
             </div>
-        </div>
-        <div class="col-md-3 fade-in-on-scroll">
-            <div class="card shadow-sm border-0 text-center">
-                <div class="card-body">
-                    <div class="rounded-circle bg-danger text-white d-inline-flex align-items-center justify-content-center mb-3" 
-                         style="width: 100px; height: 100px; font-size: 2.5rem;">
-                        AW
-                    </div>
-                    <h6 class="fw-bold">Aisha Wanjiru</h6>
-                    <p class="text-muted small mb-2">Product Manager</p>
-                    <span class="badge bg-danger">Technology</span>
+            
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="400">
+                <div class="step-card text-center">
+                    <div class="step-number mb-4">4</div>
+                    <h5 class="fw-bold mb-3">Get Hired</h5>
+                    <p class="text-muted">Land internships and job opportunities</p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="text-center mt-4 fade-in-on-scroll">
-        <a href="{% url 'main:mentor' %}" class="btn btn-success btn-lg">
-            View All Mentors <i class="bi bi-arrow-right"></i>
-        </a>
-    </div>
-</div>
+</section>
 
-<!-- How It Works Section -->
-<div class="bg-light py-5 my-5">
-    <div class="container">
-        <h2 class="text-center display-5 fw-bold mb-5 fade-in-on-scroll">How It Works</h2>
-        <div class="row">
-            <div class="col-md-3 text-center fade-in-on-scroll">
-                <div class="mb-3">
-                    <i class="bi bi-1-circle-fill text-primary" style="font-size: 3rem;"></i>
-                </div>
-                <h5 class="fw-bold">Sign Up</h5>
-                <p class="text-muted">Create your free account in under 2 minutes</p>
-            </div>
-            <div class="col-md-3 text-center fade-in-on-scroll">
-                <div class="mb-3">
-                    <i class="bi bi-2-circle-fill text-primary" style="font-size: 3rem;"></i>
-                </div>
-                <h5 class="fw-bold">Build Profile</h5>
-                <p class="text-muted">Add your projects, skills, and career interests</p>
-            </div>
-            <div class="col-md-3 text-center fade-in-on-scroll">
-                <div class="mb-3">
-                    <i class="bi bi-3-circle-fill text-primary" style="font-size: 3rem;"></i>
-                </div>
-                <h5 class="fw-bold">Connect</h5>
-                <p class="text-muted">Find mentors and collaborate with peers</p>
-            </div>
-            <div class="col-md-3 text-center fade-in-on-scroll">
-                <div class="mb-3">
-                    <i class="bi bi-4-circle-fill text-primary" style="font-size: 3rem;"></i>
-                </div>
-                <h5 class="fw-bold">Get Hired</h5>
-                <p class="text-muted">Land internships and job opportunities</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- TESTIMONIALS SECTION -->
-<!-- 📸 README SCREENSHOT: Take screenshot of testimonials section -->
-<div class="container my-5">
-    <div class="row mb-5 fade-in-on-scroll">
-        <div class="col-12 text-center">
-            <h2 class="display-5 fw-bold">What Our Users Say</h2>
+<!-- Testimonials -->
+<section class="py-5">
+    <div class="container py-5">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-4 fw-bold mb-3">What Our Users Say</h2>
             <p class="lead text-muted">Real stories from real students and mentors</p>
         </div>
-    </div>
-    <div class="row g-4">
-        <div class="col-md-4 fade-in-on-scroll">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <div class="mb-3">
+        
+        <div class="row g-4">
+            <div class="col-md-4" data-aos="flip-left" data-aos-delay="100">
+                <div class="testimonial-card h-100 p-4">
+                    <div class="stars mb-3">
                         <i class="bi bi-star-fill text-warning"></i>
                         <i class="bi bi-star-fill text-warning"></i>
                         <i class="bi bi-star-fill text-warning"></i>
                         <i class="bi bi-star-fill text-warning"></i>
                         <i class="bi bi-star-fill text-warning"></i>
                     </div>
-                    <p class="card-text text-muted">
-                        "IndustryLink helped me land my first internship! The skill gap analyzer showed me exactly what I needed to learn, and I found an amazing mentor who guided me through it all."
+                    <p class="text-muted mb-4">
+                        "IndustryLink helped me land my first internship! The skill gap analyzer showed me exactly what I needed to learn."
                     </p>
-                    <div class="d-flex align-items-center mt-3">
-                        <!-- 🖼️ TESTIMONIAL AVATAR -->
-                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3" 
-                             style="width: 50px; height: 50px;">
-                            JM
-                        </div>
+                    <div class="d-flex align-items-center">
+                        <div class="avatar me-3">JM</div>
                         <div>
-                            <h6 class="mb-0">James Mwangi</h6>
+                            <h6 class="mb-0 fw-bold">James Mwangi</h6>
                             <small class="text-muted">Computer Science Student</small>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="col-md-4 fade-in-on-scroll">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <div class="mb-3">
+            
+            <div class="col-md-4" data-aos="flip-left" data-aos-delay="200">
+                <div class="testimonial-card h-100 p-4">
+                    <div class="stars mb-3">
                         <i class="bi bi-star-fill text-warning"></i>
                         <i class="bi bi-star-fill text-warning"></i>
                         <i class="bi bi-star-fill text-warning"></i>
                         <i class="bi bi-star-fill text-warning"></i>
                         <i class="bi bi-star-fill text-warning"></i>
                     </div>
-                    <p class="card-text text-muted">
-                        "As a mentor, IndustryLink makes it so easy to give back to the community. I love seeing students grow and achieve their career goals!"
+                    <p class="text-muted mb-4">
+                        "As a mentor, IndustryLink makes it so easy to give back to the community. I love seeing students grow!"
                     </p>
-                    <div class="d-flex align-items-center mt-3">
-                        <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center me-3" 
-                             style="width: 50px; height: 50px;">
-                            EN
-                        </div>
+                    <div class="d-flex align-items-center">
+                        <div class="avatar avatar-success me-3">EN</div>
                         <div>
-                            <h6 class="mb-0">Emily Njeri</h6>
+                            <h6 class="mb-0 fw-bold">Emily Njeri</h6>
                             <small class="text-muted">Senior Product Manager</small>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="col-md-4 fade-in-on-scroll">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <div class="mb-3">
+            
+            <div class="col-md-4" data-aos="flip-left" data-aos-delay="300">
+                <div class="testimonial-card h-100 p-4">
+                    <div class="stars mb-3">
                         <i class="bi bi-star-fill text-warning"></i>
                         <i class="bi bi-star-fill text-warning"></i>
                         <i class="bi bi-star-fill text-warning"></i>
                         <i class="bi bi-star-fill text-warning"></i>
                         <i class="bi bi-star-fill text-warning"></i>
                     </div>
-                    <p class="card-text text-muted">
-                        "The project showcase feature got me noticed by recruiters! I received three interview invitations within a month of posting my projects."
+                    <p class="text-muted mb-4">
+                        "The project showcase got me noticed by recruiters! I received three interview invitations within a month."
                     </p>
-                    <div class="d-flex align-items-center mt-3">
-                        <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center me-3" 
-                             style="width: 50px; height: 50px;">
-                            PK
-                        </div>
+                    <div class="d-flex align-items-center">
+                        <div class="avatar avatar-danger me-3">PK</div>
                         <div>
-                            <h6 class="mb-0">Peter Kamau</h6>
+                            <h6 class="mb-0 fw-bold">Peter Kamau</h6>
                             <small class="text-muted">Data Science Student</small>
                         </div>
                     </div>
@@ -370,36 +361,32 @@
             </div>
         </div>
     </div>
-</div>
+</section>
 
 <!-- FAQ SECTION -->
-<!-- 📸 README SCREENSHOT: Take screenshot of FAQ section -->
-<div class="bg-light py-5 my-5">
-    <div class="container">
-        <div class="row mb-5 fade-in-on-scroll">
-            <div class="col-12 text-center">
-                <h2 class="display-5 fw-bold">Frequently Asked Questions</h2>
-                <p class="lead text-muted">Everything you need to know about IndustryLink</p>
-            </div>
+<section class="py-5 bg-light">
+    <div class="container py-5">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-4 fw-bold mb-3">Frequently Asked Questions</h2>
+            <p class="lead text-muted">Everything you need to know</p>
         </div>
+        
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-lg-8">
                 <div class="accordion" id="faqAccordion">
-                    <!-- FAQ 1 -->
-                    <div class="accordion-item fade-in-on-scroll">
-                        <h2 class="accordion-header" id="faq1">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                    <div class="accordion-item" data-aos="fade-up">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
                                 <i class="bi bi-question-circle me-2"></i> Is IndustryLink free to use?
                             </button>
                         </h2>
-                        <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                Yes! IndustryLink is completely free for students. You can create your profile, showcase projects, connect with mentors, and use all our tools at no cost. Mentors may charge for their services, but the platform itself is free.
+                                Yes! Completely free for students. You can create your profile, showcase projects, connect with mentors, and use all our tools at no cost. Mentors may charge for their services, but the platform itself is free.
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- FAQ 2 -->
+
                     <div class="accordion-item fade-in-on-scroll">
                         <h2 class="accordion-header" id="faq2">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
@@ -412,8 +399,6 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- FAQ 3 -->
                     <div class="accordion-item fade-in-on-scroll">
                         <h2 class="accordion-header" id="faq3">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
@@ -426,22 +411,6 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- FAQ 4 -->
-                    <div class="accordion-item fade-in-on-scroll">
-                        <h2 class="accordion-header" id="faq4">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4">
-                                <i class="bi bi-question-circle me-2"></i> How do I find a mentor?
-                            </button>
-                        </h2>
-                        <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Browse our mentor directory to find professionals in your field of interest. You can filter by expertise area, experience level, and hourly rate. Once you find a mentor, you can contact them directly through their profile.
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- FAQ 5 -->
                     <div class="accordion-item fade-in-on-scroll">
                         <h2 class="accordion-header" id="faq5">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5">
@@ -454,8 +423,20 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- FAQ 6 -->
+
+                    <div class="accordion-item" data-aos="fade-up" data-aos-delay="200">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                <i class="bi bi-question-circle me-2"></i> How do I find mentors?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                 Browse our mentor directory to find professionals in your field of interest.  You can filter by expertise area, experience level, and hourly rate. Once you find a mentor, you can contact them directly through their profile.
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="accordion-item fade-in-on-scroll">
                         <h2 class="accordion-header" id="faq6">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6">
@@ -472,87 +453,328 @@
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<!-- Call to Action -->
-<div class="container text-center my-5 py-5 fade-in-on-scroll">
-    <h2 class="display-5 fw-bold mb-3">Ready to Start Your Journey?</h2>
-    <p class="lead text-muted mb-4">Join hundreds of students already building their careers with IndustryLink</p>
-    {% if not request.user.is_authenticated %}
-        <a href="{% url 'main:register' %}" class="btn btn-primary btn-lg px-5">
-            Create Free Account <i class="bi bi-arrow-right"></i>
-        </a>
-    {% endif %}
-</div>
+<!-- "Ready to Start" CTA section -->
+<section class="py-5" text-white data-aos="fade-up">
+    <div class="container text-center py-4">
+        <h2 class="fw-bold mb-3">Ready to Start Your Journey?</h2>
+        <p class="lead text-muted mb-4">Join hundreds of students building their careers</p>
+        <a href="{% url 'main:register' %}" class="btn btn-primary btn-lg px-5">Get Started</a>
+    </div>
+</section>
 
-<!-- Scroll Animation Script -->
-<script>
-    // Fade in elements as they scroll into view
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('fade-in-active');
-            }
-        });
-    }, observerOptions);
-    
-    document.querySelectorAll('.fade-in-on-scroll').forEach(el => {
-        observer.observe(el);
-    });
-</script>
+<!-- AOS Script -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
 <style>
-    .feature-card {
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .feature-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
-    }
-    
-    /* Scroll animations */
-    .fade-in-on-scroll {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    
-    .fade-in-active {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    
-    .animate-fade-in {
-        animation: fadeIn 1s ease-in;
-    }
-    
-    .animate-fade-in-delay {
-        animation: fadeIn 1s ease-in 0.3s backwards;
-    }
-    
-    .animate-fade-in-delay-2 {
-        animation: fadeIn 1s ease-in 0.6s backwards;
-    }
-    
-    .animate-fade-in-delay-3 {
-        animation: fadeIn 1s ease-in 0.9s backwards;
-    }
-    
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.gradient-text {
+    background: linear-gradient(to right, #fff, #ffd700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.floating-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.shape {
+    position: absolute;
+    opacity: 0.1;
+    background: white;
+    border-radius: 50%;
+}
+
+.shape-1 {
+    width: 300px;
+    height: 300px;
+    top: 10%;
+    left: 5%;
+    animation: float 20s ease-in-out infinite;
+}
+
+.shape-2 {
+    width: 200px;
+    height: 200px;
+    top: 60%;
+    right: 10%;
+    animation: float 25s ease-in-out infinite reverse;
+}
+
+.shape-3 {
+    width: 250px;
+    height: 250px;
+    bottom: 10%;
+    left: 40%;
+    animation: float 30s ease-in-out infinite;
+}
+
+.shape-4 {
+    width: 150px;
+    height: 150px;
+    top: 30%;
+    right: 30%;
+    animation: float 15s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(30px, -30px) rotate(90deg); }
+    50% { transform: translate(-20px, 30px) rotate(180deg); }
+    75% { transform: translate(20px, 20px) rotate(270deg); }
+}
+
+
+.pulse-animation {
+    animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.05); opacity: 1; }
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 2rem;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-10px); }
+}
+
+.feature-card {
+    background: white;
+    border-radius: 20px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2.5rem;
+    transition: transform 0.3s;
+}
+
+.feature-icon-success {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.feature-icon-danger {
+    background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+}
+
+.feature-card:hover .feature-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.project-preview-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+}
+
+.project-preview-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.project-preview-image {
+    height: 220px;
+    position: relative;
+    overflow: hidden;
+}
+
+.project-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    color: white;
+    transition: transform 0.6s;
+}
+
+.project-preview-card:hover .project-placeholder {
+    transform: scale(1.1) rotate(-2deg);
+}
+
+.gradient-1 {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.gradient-2 {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.gradient-3 {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.project-status {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 2;
+}
+
+.step-card {
+    padding: 30px;
+    transition: transform 0.3s;
+}
+
+.step-card:hover {
+    transform: translateY(-5px);
+}
+
+.step-number {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+}
+
+.testimonial-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+    transition: all 0.3s;
+}
+
+.testimonial-card:hover {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.avatar {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.avatar-success {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.avatar-danger {
+    background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+}
+
+/* CTA Section */
+.cta-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.cta-shapes .shape {
+    background: rgba(255,255,255,0.1);
+}
+
+/* Hover Lift Effect */
+.hover-lift {
+    transition: all 0.3s;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Stat Cards */
+.stat-card {
+    padding: 20px;
+    border-left: 4px solid rgba(255,255,255,0.3);
+    transition: all 0.3s;
+}
+
+.stat-card:hover {
+    border-left-color: white;
+    transform: translateX(10px);
+}
 </style>
 
+<script>
+// Initialize AOS
+AOS.init({
+    duration: 1000,
+    once: true,
+    offset: 100
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const counters = document.querySelectorAll('.counter');
+    
+    counters.forEach(counter => {
+        const target = parseInt(counter.textContent);
+        let count = 0;
+        const increment = target / 50;
+        
+        const updateCount = () => {
+            if (count < target) {
+                count += increment;
+                counter.textContent = Math.ceil(count) + '+';
+                setTimeout(updateCount, 30);
+            } else {
+                counter.textContent = target + '+';
+            }
+        };
+        
+        // StartS animation when in view
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                updateCount();
+                observer.disconnect();
+            }
+        });
+        
+        observer.observe(counter);
+    });
+});
+</script>
 {% endblock %}
